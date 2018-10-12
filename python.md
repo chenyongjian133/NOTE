@@ -411,3 +411,529 @@
     
     end = time()
     print(end-begin,'秒')
+
+## 大战游戏
+    player = '超级玛丽'
+    boss = '蘑菇怪'
+    print('-'*20,f'欢迎光临《{player}大战{boss}》','-'*20)
+    # 身份
+    print('请选择你的身份：')
+    print(f'\t1.{player}')
+    print(f'\t2.{boss}')
+    # 用户选择身份
+    player_choose = input('请选择[1-2]:')
+    # 分割线
+    print('-'*66)
+    # 判断用户选择
+    if player_choose == '1' :
+        print(f'你选择了1，你将以->{player}<-的身份进行游戏!')
+    elif player_choose == '2' :
+        print(f'你竟然选择{boss}，太不要脸了，你将以->{player}<-的身份进行游戏!')
+    else :
+        print(f'你的输入有误，系统自动给你分配角色，你将以->{player}<-的身份进行游戏!')
+    # 分割线
+    print('-'*66)
+    # 进入游戏，定义角色生命值和攻击力
+    player_life = 2
+    player_attack = 2
+    boss_life = 10
+    boss_attack = 10
+    print(f'{player}你的生命值是{player_life}，你的攻击力是{player_attack}')
+    # 游戏界面和选项
+    while True:
+        # 分割线
+        print('-'*66)
+        print('请选择你要进行的操作：')
+        print('\t1.练级')
+        print('\t2.打boss')
+        print('\t3.逃跑')
+        player_choose = input('请选择要做的操作[1-3]：')
+        if player_choose == '1' :
+            player_life += 2
+            player_attack += 2
+            print('-'*66)
+            print(f'恭喜你升级了！你现在的生命值是{player_life}，攻击力是{player_attack}')
+        elif player_choose == '2' :
+            boss_life -= player_attack
+            # 打印一条分割线
+            print('-'*66)
+            print(f'->{player}<- 攻击了 ->{boss}<-')
+            if boss_life <= 0 :
+                print(f'{boss}受到了{player_attack}的伤害,重伤不治，游戏结束，->{player}<-取的胜利！')
+                break
+            player_life -= boss_attack 
+            print(f'->{boss}<- 攻击了 ->{player}<-')
+            if player_life<=0:
+                print(f'你受到了{boss_attack}的伤害,重伤不治，游戏结束，->{boss}<-取的胜利！')
+                break
+        elif player_choose == '3' :
+            print('-'*66)
+            print(f'你逃跑了，游戏结束！')
+            break
+        else :
+            print('-'*66)
+            print('输入有误，请重新选择！')
+
+## 列表（list）
+    - 列表是Python中的一个对象
+    - 对象（object）就是内存中专门用来存储数据的一块区域
+    - 列表中可以保存多个有序的数据
+    - 列表是用来存储对象的对象
+    - 列表的使用：
+        1.列表的创建
+        2.操作列表中的数据
+    - 创建列表，通过[]创建
+        my_list = []
+        print(my_list , type(my_list))      #  [] <class 'list'>
+
+        my_list = [10] # 创建一个只包含一个元素的列表
+        my_list = [10,'hello',True,None,[1,2,3],print]      # 列表中可以保存任意的对象
+        print(my_list[4])       #读取列表元素
+        len(my_list)            #返回列表长度
+        print(my_list[-2])      #索引是负数，则从后向前获取元素，-1表示倒数第一个，-2表示倒数第二个 以此类推
+    - 切片
+        切片指从现有列表中，获取一个子列表（返回新列表）
+        语法：列表[起始:结束]           #包含起始，不含结束
+        如果起始位置和结束位置全部省略，则相当于创建了一个列表的副本
+            print(stus[1:])
+            print(stus[:3])
+            print(stus[:])
+            print(stus)
+
+        语法：列表[起始:结束:步长] 
+            步长表示，每次获取元素的间隔，默认值是1，步长不能是0，但是可以是负数，负数，则会从列表的后部向前边取元素
+            print(stus[::0]) ValueError: slice step cannot be zero
+            print(stus[0:5:3])
+            print(stus[::-1])
+    - + 和 *
+        my_list = [1,2,3] + [4,5,6]     # [1,2,3,4,5,6]
+        my_list = [1,2] * 3             # [1,2,1,2,1,2]
+    - in 和 not in
+        arrs = [1,2,3]
+        print(1 not in arrs)      #False
+        print(2 in arrs)           #True
+    - min() 获取列表中的最小值    min(arrs)
+    - max() 获取列表中的最大值    max(arrs)
+    - index() 
+        获取指定元素在列表中的第一次出现时索引
+        index()的第二个参数，表示查找的起始位置 ， 第三个参数，表示查找的结束位置
+        如果要获取列表中没有的元素，会抛出异常
+        [1,2,3].index(1)         # 0
+    - count()
+        统计指定元素在列表中出现的次数
+        [1,2,3,3,3,3].count(3)  # 4
+
+## 序列（sequence）
+    - 序列是Python中最基本的一种数据结构
+    - 数据结构指计算机中数据存储的方式
+    - 序列用于保存一组有序的数据，所有的数据在序列当中都有一个唯一的位置（索引）
+        并且序列中的数据会按照添加的顺序来分配索引
+    - 序列的分类：
+        可变序列（序列中的元素可以改变）：
+            > 列表（list）
+        不可变序列（序列中的元素不能改变）：
+            > 字符串（str）    
+            > 元组（tuple）
+        - 刚刚我们所讲所有操作都是序列的通用操作01 02 03 三个文件中的操作（以上操作适用所有列表）
+
+## 可变序列(list)才能用的方法
+    - 修改元素(直接通过索引修改)
+        stus = ['孙悟空','猪八戒','沙和尚','唐僧','蜘蛛精','白骨精']
+        stus[0] = 'hahaha'
+    - del
+        通过del来删除元素
+        del stus[2]         # 删除索引为2的元素
+    - 通过切片修改列表
+        在给切片进行赋值时，只能使用序列(可变或不可变都行)，number和None和boolen都不行
+        stus[0:2] = ['牛魔王','红孩儿']     #使用新的元素替换旧元素
+        stus[0:2] = 'ab'                #['a','b','沙和尚','唐僧','蜘蛛精','白骨精']
+        stus[0:2] = 12                  #报错
+        stus[0:0] = ['牛魔王']          # 向索引为0的位置插入元素
+        stus[0:2] = ['牛魔王','红孩儿','二郎神']    #['牛魔王','红孩儿','二郎神','沙和尚','唐僧','蜘蛛精','白骨精']
+        当设置了步长时，序列中元素的个数必须和切片中元素的个数一致
+        stus[::2] = ['牛魔王','红孩儿','二郎神']    #['牛魔王', '猪八戒', '红孩儿', '唐僧', '二郎神', '白骨精']
+    - 通过切片来删除元素
+        del stus[0:2]     #删除第一第二个元素
+        del stus[::2]     #删除步长为2的元素['猪八戒','唐僧','白骨精']
+        stus[1:3] = []     #删除第二第三个元素
+    - append()
+        向列表的最后添加一个元素
+        [1,2,3].append('hello world')
+    - insert()
+        向列表的指定位置插入一个元素
+        参数：
+            1.要插入的位置
+            2.要插入的元素
+        ['a','b','c'].insert(1,'d')         #['a','d','b','c']
+    - extend()
+        使用新的序列来扩展当前序列
+        需要一个序列作为参数，它会将该序列中的元素添加到当前列表中
+        stus.extend(['唐僧','白骨精'])
+        相当于
+        stus += ['唐僧','白骨精']
+    - clear()
+        清空序列
+        stus.clear()
+    - pop()
+        根据索引删除并返回被删除的元素
+        result = [1,2,3].pop(1)     # 删除索引为2的元素
+        result = [1,2,3].pop()     # 不传参数默认删除最后一个
+    - remove()
+        删除指定值得元素，如果相同值得元素有多个，只会删除第一个
+        stus.remove('猪八戒')
+    - reverse()
+        反转列表
+        stus.reverse()
+    - sort()
+        用来对列表中的元素进行排序，默认是升序排列
+        如果需要降序排列，则需要传递一个reverse=True作为参数
+        my_list = list('asnbdnbasdabd')         #list()函数可以将一个不可变序列转成可变序列
+        print(my_list.sort())
+        my_list = [10,1,20,3,4,5,0,-2]
+        print(my_list.sort(reverse=True))
+
+## 遍历
+    for
+        语法：
+            for 变量 in 序列 :
+                代码块
+        例：
+            for s in stus :
+                print(s)
+
+## EMS系统练习
+    # 显示系统的欢迎信息
+    print('-'*20 , '欢迎使用员工管理系统', '-'*20)
+    # 创建一个默认用户列表
+    emps = ['小hong\t18\t女\t上海','小bai\t19\t男\t北京']
+    while True:
+        # 显示用户的选项
+        print('请选择要做的操作：')
+        print('\t1.查询员工')
+        print('\t2.添加员工')
+        print('\t3.删除员工')
+        print('\t4.退出系统')
+        user_choose = input('请选择[1-4]:')
+        print('-'*62)
+        if user_choose == '1' :
+            print('\t序号\t姓名\t年龄\t性别\t住址')
+            n = 1
+            for s in emps :
+                print(f'\t{n}\t{s}')
+                n+=1
+        elif user_choose == '2' :
+            # 获取要添加员工的信息，姓名、年龄、性别、住址
+            emp_name = input('请输入员工的姓名：')
+            emp_age = input('请输入员工的年龄：')
+            emp_gender = input('请输入员工的性别：')
+            emp_address = input('请输入员工的住址：')
+            emp = f'{emp_name}\t{emp_age}\t{emp_gender}\t{emp_address}'
+            print('以下员工将被添加到系统中')
+            print('-'*62)
+            print('\t姓名\t年龄\t性别\t住址')
+            print(f'\t{emp}')
+            print('-'*62)
+            confirm = input('是否确定该操作[Y/N]：')
+            if confirm == 'y' or confirm == 'yes' :
+                emps.append(emp)
+                print('操作成功！')
+            else :
+                print('操作已取消！')
+        elif user_choose == '3' :
+            num = int(input('请输入要删除的员工序号：'))
+            if num > 0 and num <= len(emps) :
+                index = num - 1
+                print('以下员工将要被删除')
+                print('-'*62)
+                print('\t序号\t姓名\t年龄\t性别\t住址')
+                print(f'\t{num}\t{emps[index]}')
+                user_confirm = input('该操作不可恢复，是否确认[Y/N]：')
+                if user_confirm == 'y' or user_confirm == 'yes' :
+                    print('操作成功！')
+                    emps.pop(index)
+                else :
+                    print('操作已取消！')
+            else :
+                print('没有你要删除的员工序号！')
+        elif user_choose == '4' :
+            print('欢迎使用，再见！')
+            input('按回车键退出！')
+            break
+        else :
+            print('你的输入有误，请重新选择')
+        print('-'*62)
+
+## range()是一个函数，可以用来生成一个自然数的序列
+    该函数需要三个参数
+        1.起始位置（可以省略，默认是0）
+        2.结束位置
+        3.步长（可以省略，默认是1）
+    r = range(5)        
+    print(r)            #range(0,5)
+    print(list(r))      #[0,1,2,3,4]
+
+    r = range(0,10,2)
+    print(r)            #range(0, 10, 2)
+    print(list(r))      #[0, 2, 4, 6, 8]
+
+    r = range(10,0,-1)
+    print(r)            #range(10, 0, -1)
+    print(list(r))      #[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+## for()循环
+    包括else、包括break continue都可以在for循环中使用
+    for i in range(30) :
+        print(i)
+
+    for s in 'hello' :
+        print(s)
+
+## 元组 tuple
+    元组是一个不可变的序列
+    它的操作的方式基本上和列表是一致的
+    所以你在操作元组时，就把元组当成是一个不可变的列表就ok了
+    一般当我们希望数据不改变时，就使用元组，其余情况都使用列表
+
+    使用()来创建元组
+        my_tuple = ()       # 创建了一个空元组
+        print(my_tuple,type(my_tuple)) # <class 'tuple'>
+        my_tuple = (1,2,3,4,5) # 创建了一个5个元素的元组
+
+    元组是不可变对象，不能尝试为元组中的元素重新赋值
+        my_tuple[3] = 10 TypeError: 'tuple' object does not support item assignment
+    
+    当元组不是空元组时，括号可以省略
+        my_tuple = 10,20,30,40
+    如果元组不是空元组，它里边至少要有一个,
+        my_tuple = 40,
+
+    元组的解包（解构）
+        解包指就是将元组当中每一个元素都赋值给一个变量
+        my_tuple = 10 , 20 , 30 , 40
+        a,b,c,d = my_tuple
+        print(a,b,c,d)
+
+        a = 100
+        b = 300
+        a , b = b , a           # 交互a 和 b的值，这时我们就可以利用元组的解包
+    
+    在对一个元组进行解包时，变量的数量必须和元组中的元素的数量一致
+    也可以在变量前边添加一个*，这样变量将会获取元组中所有剩余的元素
+    不能同时出现两个或以上的*变量
+    a , b , *c = my_tuple
+    a , *b , c = my_tuple
+    *a , b , c = my_tuple
+    a , b , *c = [1,2,3,4,5,6,7]
+    a , b , *c = 'hello world'
+    print('a =',a)      a = h
+    print('b =',b)      b = e
+    print('c =',c)      c = ['l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd']
+
+## 可变对象
+    - 每个对象中都保存了三个数据：
+        id（标识）
+        type（类型）
+        value（值）    
+
+    - 列表就是一个可变对象
+        a = [1,2,3]
+
+    - a[0] = 10 （改对象）
+        - 这个操作是在通过变量去修改对象的值
+        - 这种操作不会改变变量所指向的对象    
+        - 当我们去修改对象时，如果有其他变量也指向了该对象，则修改也会在其他的变量中体现
+
+    - a = [4,5,6] （改变量）
+        - 这个操作是在给变量重新赋值
+        - 这种操作会改变变量所指向的对象
+        - 为一个变量重新赋值时，不会影响其他的变量
+    
+    - == !=  is is not
+        == != 比较的是对象的值是否相等 
+        is is not 比较的是对象的id是否相等（比较两个对象是否是同一个对象）
+
+            a = [1,2,3]
+            b = [1,2,3]
+            print(a,b)
+            print(id(a),id(b))
+            print(a == b) # a和b的值相等，使用==会返回True
+            print(a is b) # a和b不是同一个对象，内存地址不同，使用is会返回False
+
+## 字典（dict）
+    - 字典属于一种新的数据结构，称为映射（mapping）
+    - 字典的作用和列表类似，都是用来存储对象的容器
+    - 列表存储数据的性能很好，但是查询数据的性能的很差
+    - 在字典中每一个元素都有一个唯一的名字，通过这个唯一的名字可以快速的查找到指定的元素
+    - 在查询元素时，字典的效率是非常快的
+    - 在字典中可以保存多个对象，每个对象都会有一个唯一的名字
+        这个唯一的名字，我们称其为键（key），通过key可以快速的查询value
+        这个对象，我们称其为值（value）
+        所以字典，我们也称为叫做键值对（key-value）结构
+        每个字典中都可以有多个键值对，而每一个键值对我们称其为一项（item）
+
+## 使用 {} 来创建字典
+    d = {}      # 创建了一个空字典
+
+    创建一个有数据的字典
+        # 语法：
+        #   {key:value,key:value,key:value}
+        #   字典的值可以是任意对象
+        #   字典的键可以是任意的不可变对象（int、str、bool、tuple ...），但是一般我们都会使用str
+        #       字典的键是不能重复的，如果出现重复的后边的会替换到前边的
+        # d = {'name':'孙悟空' , 'age':18 , 'gender':'男' , 'name':'sunwukong'}
+
+        d = {
+        'name':'孙悟空' , 
+        'age':18 , 
+        'gender':'男' , 
+        'name':'sunwukong'
+        }
+
+        print(d , type(d))      {'name': 'sunwukong', 'age': 18, 'gender': '男'} <class 'dict'>
+        print(d['hello'])       KeyError: 'hello'
+    
+## 使用 dict()函数来创建字典
+    d = dict(name='孙悟空',age=18,gender='男')
+
+    也可以将一个包含有双值子序列的序列转换为字典
+    双值序列，序列中只有两个值，[1,2] ('a',3) 'ab'
+    子序列，如果序列中的元素也是序列，那么我们就称这个元素为子序列
+        d = dict([('name','孙悟饭'),('age',18)])        
+        print(d , type(d))                  {'name': '孙悟饭', 'age': 18} <class 'dict'>
+
+    len() 获取字典中键值对的个数
+
+    in 检查字典中是否包含指定的键
+    not in 检查字典中是否不包含指定的键
+        print('hello' in d)
+
+    获取字典中的值，根据键来获取值
+        语法：d[key]
+            print(d['age'])
+
+    通过[]来获取值时，如果键不存在，会抛出异常 KeyError
+    get(key[, default]) 该方法用来根据键来获取字典中的值
+        如果获取的键在字典中不存在，会返回None
+        也可以指定一个默认值，来作为第二个参数，这样获取不到值时将会返回默认值
+            print(d.get('name'))
+            print(d.get('hello','默认值'))
+    
+    修改字典
+        d[key] = value 如果key存在则覆盖，不存在则添加
+
+    setdefault(key[, default]) 可以用来向字典中添加key-value
+        如果key已经存在于字典中，则返回key的值，不会对字典做任何操作
+        如果key不存在，则向字典中添加这个key，并设置value
+        result = d.setdefault('name','猪八戒')     result = 孙悟饭  因为原字典有name,所以返回原字典中的name
+        result = d.setdefault('hello','猪八戒')     result = 猪八戒 修改成功，原字典没有hello，返回修改成功的内容
+
+    update([other])
+        将其他的字典中的key-value添加到当前字典中
+        如果有重复的key，则后边的会替换到当前的
+            d = {'a':1,'b':2,'c':3}
+            d2 = {'d':4,'e':5,'f':6, 'a':7}
+            d.update(d2)
+    删除，可以使用 del 来删除字典中的 key-value
+        del d['a']
+
+    popitem()
+        随机删除字典中的一个键值对，一般都会删除最后一个键值对
+        删除之后，它会将删除的key-value作为返回值返回
+        返回的是一个元组，元组中有两个元素，第一个元素是删除的key，第二个是删除的value
+        当使用popitem()删除一个空字典时，会抛出异常 KeyError: 'popitem(): dictionary is empty'
+        d.popitem()
+        result = d.popitem()
+
+    pop(key[, default])
+        根据key删除字典中的key-value
+        会将被删除的value返回！
+        如果删除不存在的key，会抛出异常
+        如果指定了默认值，再删除不存在的key时，不会报错，而是直接返回默认值
+        result = d.pop('d')
+        result = d.pop('z','这是默认值')
+
+    clear()用来清空字典
+        d.clear()
+
+    copy()
+        该方法用于对字典进行浅复制
+        复制以后的对象，和原对象是独立，修改一个不会影响另一个
+        注意，浅复制会简单复制对象内部的值，如果值也是一个可变对象，这个可变对象不会被复制
+        d = {'a':1,'b':2,'c':3}
+        d2 = d.copy()
+
+    keys() 该方法会返回字典的所有的key
+        该方法会返回一个序列，序列中保存有字典的所有的键
+        d = {'name':'孙悟空','age':18,'gender':'男'}
+        for k in d.keys() :
+            print(k,d[k])
+    values()
+        该方法会返回一个序列，序列中保存有字典的左右的值
+        for v in d.values() :
+            print(v)
+    items()
+        该方法会返回字典中所有的项
+        它会返回一个序列，序列中包含有双值子序列
+        双值分别是，字典中的key和value
+        for k,v in d.items() :
+            print(k,'=',v)
+
+## 集合（set）
+    - 集合和列表非常相似
+    - 不同点：
+        1.集合中只能存储不可变对象
+        2.集合中存储的对象是无序（不是按照元素的插入顺序保存）
+        3.集合中不能出现重复的元素
+
+## 使用 {} 来创建集合
+    s = {10,3,5,1,2,1,2,3,1,1,1,1} # <class 'set'>
+    s = {[1,2,3],[4,6,7]}       TypeError: unhashable type: 'list'
+
+## 使用 set() 函数来创建集合
+    s = set() # 空集合
+    通过set()来将序列和字典转换为集合
+        s = set([1,2,3,4,5,1,1,2,3,4,5])
+        s = set('hello')
+        s = set({'a':1,'b':2,'c':3}) # 使用set()将字典转换为集合时，只会包含字典中的键
+    使用in和not in来检查集合中的元素
+        print('c' in s)
+    len()来获取集合中元素的数量
+    add() 向集合中添加元素
+        s.add(10)
+        s.add(30)
+    update() 将一个集合中的元素添加到当前集合中
+        update()可以传递序列或字典作为参数，字典只会使用键
+        s2 = set('hello')
+        s.update(s2)
+        s.update((10,20,30,40,50))
+        s.update({10:'ab',20:'bc',100:'cd',1000:'ef'})
+    pop()随机删除并返回一个集合中的元素
+        result = s.pop()
+    remove()删除集合中的指定元素
+        s.remove(100)
+        s.remove(1000)
+    clear()清空集合
+        s.clear()
+    copy()对集合进行浅复制
+
+## 集合运算
+    在对集合做运算时，不会影响原来的集合，而是返回一个运算结果
+    s = {1,2,3,4,5}
+    s2 = {3,4,5,6,7}
+
+    & 交集运算
+        result = s & s2     # {3, 4, 5}
+    | 并集运算
+        result = s | s2     # {1,2,3,4,5,6,7}
+    - 差集
+        result = s - s2     # {1, 2}
+    ^ 异或集 获取只在一个集合中出现的元素
+        result = s ^ s2     # {1, 2, 6, 7}
+    <= 检查一个集合是否是另一个集合的子集
+        如果a集合中的元素全部都在b集合中出现，那么a集合就是b集合的子集，b集合是a集合超集
+        a = {1,2,3}
+        b = {1,2,3,4,5}
+        result = a <= b     # True
+    < 检查一个集合是否是另一个集合的真子集
+    >= 检查一个集合是否是另一个的超集
+    > 检查一个集合是否是另一个的真超集
