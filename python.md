@@ -937,3 +937,552 @@
     < 检查一个集合是否是另一个集合的真子集
     >= 检查一个集合是否是另一个的超集
     > 检查一个集合是否是另一个的真超集
+
+## 函数简介（function）
+    - 创建函数：
+        def 函数名([形参1,形参2,...形参n]) :
+            代码块
+        - 函数名必须要符号标识符的规范
+            （可以包含字母、数字、下划线、但是不能以数字开头）    
+    - 调用函数：
+        函数对象()
+
+## 函数的参数
+    - 在定义函数时，可以在函数名后的()中定义数量不等的形参，
+        多个形参之间使用,隔开
+    - 形参（形式参数），定义形参就相当于在函数内部声明了变量，但是并不赋值
+    - 实参（实际参数）
+        - 如果函数定义时，指定了形参，那么在调用函数时也必须传递实参，
+            实参将会赋值给对应的形参，简单来说，有几个形参就得传几个实参
+
+## 函数式编程
+    - 在Python中，函数是一等对象
+    - 一等对象一般都会具有如下特点：
+        ① 对象是在运行时创建的
+        ② 能赋值给变量或作为数据结构中的元素
+        ③ 能作为参数传递
+        ④ 能作为返回值返回
+        
+    - 高阶函数
+        - 高阶函数至少要符合以下两个特点中的一个
+          ① 接收一个或多个函数作为参数
+          ② 将函数作为返回值返回 
+
+        def fn2(a , b) :
+            print('a =',a)
+            print('b =',b)
+            print(a,"+",b,"=",a + b)
+
+    指定默认参数
+        def fn(a = 5 , b = 10 , c = 20):
+            print('a =',a)
+            print('b =',b)
+            print('c =',c)
+
+        fn()        默认调用
+        fn(1,2,3)   修改参数调用
+
+
+    关键字参数
+        关键字参数，可以不按照形参定义的顺序去传递，而直接根据参数名去传递参数
+        def fn(a = 5 , b = 10 , c = 20):
+            print(a+b+c)
+
+        fn(b=1 , c=2 , a=3)     关键字参数调用
+    
+    位置参数和关键字参数可以混合使用
+        混合使用关键字和位置参数时，必须将位置参数写到前面
+        位置参数就是将对应位置的实参复制给对应位置的形参
+        def fn(a = 5 , b = 10 , c = 20):
+            print(a+b+c)
+        fn(1 , c=2 )     1+10+2 关键字参数与位置参数混用
+
+    不定长的参数
+        def sum(*nums):
+            result=0
+            for n in nums :
+                result+=n
+            print(result)
+        sum(123,456,789,10,20,30,40)    调用
+
+    普通参数和不定长参数混合使用
+        def fn(a,b,*c):
+            print('a =',a)
+            print('b =',b)
+            print('c =',c)
+        fn(1,2,3,4,5)    # a = 1 b = 2 c = (3, 4, 5)
+
+    可变参数不是必须写在最后，但是注意，带*的参数后的所有参数，必须以关键字参数的形式传递
+        def fn2(a,*b,c):        c必须使用关键字参数
+            print('a =',a)
+            print('b =',b)
+            print('c =',c)
+
+    如果在形参的开头直接写一个*,则要求我们的所有的参数必须以关键字参数的形式传递
+        def fn2(*,a,b,c):
+            print('a =',a)
+            print('b =',b)
+            print('c =',c)
+        fn2(a=1,b=2,c=3)
+
+    *形参只能接收位置参数，而不能接收关键字参数
+        def fn3(*a) :
+            print('a =',a)
+        fn3(a='str')    got an unexpected keyword argument 'a'
+
+    **形参可以接收其他的关键字参数，它会将这些参数统一保存到一个字典中
+        字典的key就是参数的名字，字典的value就是参数的值
+        **形参只能有一个，并且必须写在所有参数的最后
+        def fn3(*d,b,c,**a) :
+            print('a =',a,type(a))
+            print('b =',b)
+            print('c =',c)
+            print('d =',d)
+        fn3(22,b=1,d=2,c=3,e=10,f=20)
+            a = {'d': 2, 'e': 10, 'f': 20} <class 'dict'>
+            b = 1
+            c = 3
+            d = (22, 33)
+            a = 100
+            b = 200
+            c = 300
+        
+    参数的解包（拆包）
+        def fn4(a,b,c):
+            print('a =',a)
+            print('b =',b)
+            print('c =',c)
+
+        # 创建一个元组
+        t = (10,20,30)
+
+        # 传递实参时，也可以在序列类型的参数前添加星号，这样他会自动将序列中的元素依次作为参数传递
+        # 这里要求序列中元素的个数必须和形参的个数的一致
+        # fn4(*t)    
+
+        # 创建一个字典
+        d = {'a':100,'b':200,'c':300}
+        # 通过 **来对一个字典进行解包操作
+        fn4(**d)
+
+## help()是Python中的内置函数
+        # 通过help()函数可以查询python中的函数的用法
+        # 语法：help(函数对象)
+        # help(print) # 获取print()函数的使用说明
+
+        # 文档字符串（doc str）
+        # 在定义函数时，可以在函数内部编写文档字符串，文档字符串就是函数的说明
+        #   当我们编写了文档字符串时，就可以通过help()函数来查看函数的说明
+        #   文档字符串非常简单，其实直接在函数的第一行写一个字符串就是文档字符串
+        def fn(a:int,b:bool,c:str='hello') -> int:
+            '''
+            这是一个文档字符串的示例
+
+            函数的作用：。。。。。
+            函数的参数：
+                a，作用，类型，默认值。。。。
+                b，作用，类型，默认值。。。。
+                c，作用，类型，默认值。。。。
+            '''
+            return 10
+
+        help(fn)
+
+## 作用域（scope）
+    a = 20
+    def fn3():
+        # a = 10 # 在函数中为变量赋值时，默认都是为局部变量赋值
+        # 如果希望在函数内部修改全局变量，则需要使用global关键字，来声明变量
+        global a # 声明在函数内部的使用a是全局变量，此时再去修改a时，就是在修改全局的a
+        a = 10 # 修改全局变量
+        print('函数内部：','a =',a)
+
+## 命名空间（namespace）
+        # 命名空间指的是变量存储的位置，每一个变量都需要存储到指定的命名空间当中
+        # 每一个作用域都会有一个它对应的命名空间
+        # 全局命名空间，用来保存全局变量。函数命名空间用来保存函数中的变量
+        # 命名空间实际上就是一个字典，是一个专门用来存储变量的字典
+
+        locals()用来获取当前作用域的命名空间
+        # 如果在全局作用域中调用locals()则获取全局命名空间，如果在函数作用域中调用locals()则获取函数命名空间
+        # 返回的是一个字典
+        scope = locals() # 当前命名空间
+        print(type(scope))
+        # print(a)
+        # print(scope['a'])
+        # 向scope中添加一个key-value
+        scope['c'] = 1000       # 向字典中添加key-value就相当于在全局中创建了一个变量（一般不建议这么做）
+        # print(c)
+
+        def fn4():
+            a = 10
+            # scope = locals() # 在函数内部调用locals()会获取到函数的命名空间
+            # scope['b'] = 20 # 可以通过scope来操作函数的命名空间，但是也是不建议这么做
+
+            # globals() 函数可以用来在任意位置获取全局命名空间
+            global_scope = globals()
+            # print(global_scope['a'])
+            global_scope['a'] = 30
+            # print(scope)
+
+        fn4()    
+
+## 递归
+    求阶乘
+    def factorial(n) :
+        return 1 if n == 1 else n * factorial(n-1)
+    任意数字做任意次幂运算
+    def power(n,i) :
+        return n if i == 1 else n * power(n,i-1)
+    检查回文
+        abcdefgfedcba这就是回文
+    def hui_wen(s) :
+        return True if len(s)<2 else s[0] == s[1] and hui_wen(s[1:-1])
+
+    def hui_wen(s):
+    '''
+        该函数用来检查指定的字符串是否回文字符串，如果是返回True，否则返回False
+
+        参数：
+            s：就是要检查的字符串
+    '''
+    # 基线条件
+    if len(s) < 2 :
+        # 字符串的长度小于2，则字符串一定是回文
+        return True
+    elif s[0] != s[-1]:
+        # 第一个字符和最后一个字符不相等，不是回文字符串
+        return False    
+    # 递归条件    
+    return hui_wen(s[1:-1])
+
+## 匿名函数 lambda 函数表达式 （语法糖）
+    lambda函数表达式专门用来创建一些简单的函数
+        语法：lambda 参数列表 : 返回值
+        匿名函数一般都是作为参数使用，其他地方一般不会使用
+
+        例：
+            lambda a,b : a+b
+        lambda自调用
+            (lambda a,b : a+b)(10,20)
+
+## 高阶函数
+    filter()   内置函数(高阶)
+        filter()可以从序列中过滤出符合条件的元素，保存到一个新的序列中
+        参数：
+            1.函数，根据该函数来过滤序列（可迭代的结构）
+            2.需要过滤的序列（可迭代的结构）
+        返回值：
+            过滤后的新序列（可迭代的结构）
+        例：
+            l = [1,2,3,4,5,6,7,8,9,10]
+            r = fliter(lambda i : i>5, l)
+            print(list(r))
+    map()
+        map()函数可以对可迭代对象中的所有元素做指定的操作，然后将其添加到一个新的对象中返回
+        r = map(lambda i : i ** 2 , l)
+        print(list(r))
+
+    sort()
+        该方法用来对列表中的元素进行排序
+        sort()方法默认是直接比较列表中的元素的大小
+        在sort()可以接收一个关键字参数 ， key
+        key需要一个函数作为参数，当设置了函数作为参数
+        每次都会以列表中的一个元素作为参数来调用函数，并且使用函数的返回值来比较元素的大小
+        l = ['bb','aaaa','c','ddddddddd','fff']
+        l.sort(key=len)
+        print(l)            ['c', 'bb', 'fff', 'aaaa', 'ddddddddd']
+
+        l = [2,5,'1',3,'6','4']
+        l.sort(key=int)
+        print(l)            ['1', 2, 3, '4', 5, '6']
+
+    sorted()
+        这个函数和sort()的用法基本一致，但是sorted()可以对任意的序列进行排序
+        并且使用sorted()排序不会影响原来的对象，而是返回一个新对象
+            l = "123765816742634781"
+            print('排序前:',l)              排序前: 123765816742634781
+            print(sorted(l,key=int))        ['1', '1', '1', '2', '2', '3', '3', '4', '4', '5', '6', '6', '6', '7', '7', '7', '8', '8']
+            print('排序后:',l)              排序前: 123765816742634781
+
+            l = [2,5,'1',3,'6','4']
+            print('排序前:',l)              排序前: [2, 5, '1', 3, '6', '4']
+            print(sorted(l,key=int))        ['1', 2, 3, '4', 5, '6']
+            print('排序后:',l)              排序前: [2, 5, '1', 3, '6', '4']
+
+## 闭包
+    将函数作为返回值返回，也是一种高阶函数
+    这种高阶函数我们也称为叫做闭包，通过闭包可以创建一些只有当前函数能访问的变量
+    可以将一些私有的数据藏到的闭包中
+
+    形成闭包的要件
+        ① 函数嵌套
+        ② 将内部函数作为返回值返回
+        ③ 内部函数必须要使用到外部函数的变量
+
+        def make_averager():
+            # 创建一个列表，用来保存数值
+            nums = []
+            # 创建一个函数，用来计算平均值
+            def averager(n) :
+                # 将n添加到列表中
+                nums.append(n)
+                # 求平均值
+                return sum(nums)/len(nums)          sum()是python内置函数，可以求和
+
+            return averager
+
+        averager = make_averager()
+
+        print(averager(10))
+        print(averager(20))
+        print(averager(30))
+        print(averager(40))
+
+## 装饰器
+    通过装饰器，可以在不修改原来函数的情况下来对函数进行扩展
+    在定义函数时，可以通过@装饰器，来使用指定的装饰器，来装饰当前的函数
+    可以同时为一个函数指定多个装饰器，这样函数将会按照从内向外的顺序被装饰 
+    定义2个装饰器
+    def begin_end(old) :
+        def new_function(*args,**kwargs) :
+            print('begin装饰执行')
+            result = old(*args,**kwargs)
+            print('begin装饰结束')
+            return result
+        return new_function
+
+    def fn3(old) :
+        def new_function(*args,**kwargs) :
+            print('fn3装饰执行')
+            result = old(*args,**kwargs)
+            print('fn3装饰结束')
+            return result
+        return new_function
+
+    使用例子
+    @fn3
+    @begin_end
+    def say_hello() :
+        print('我是old函数')
+    say_hello()
+    fn3装饰执行
+    begin装饰执行
+    我是old函数
+    begin装饰结束
+    fn3装饰结束
+
+## 对象（Object）
+
+## 什么是对象？
+    - 对象是内存中专门用来存储数据的一块区域。
+    - 对象中可以存放各种数据（比如：数字、布尔值、代码）
+    - 对象由三部分组成：
+        1.对象的标识（id）
+        2.对象的类型（type）
+        3.对象的值（value）
+
+## 面向对象（oop）
+    - Python是一门面向对象的编程语言
+    - 所谓的面向对象的语言，简单理解就是语言中的所有操作都是通过对象来进行的
+    - 面向过程的编程的语言
+        - 面向过程指将我们的程序的逻辑分解为一个一个的步骤，
+            通过对每个步骤的抽象，来完成程序
+        - 例子：
+            - 孩子上学
+                1.妈妈起床
+                2.妈妈上厕所
+                3.妈妈洗漱
+                4.妈妈做早饭
+                5.妈妈叫孩子起床
+                6.孩子上厕所
+                7.孩子要洗漱
+                8.孩子吃饭
+                9.孩子背着书包上学校
+
+        - 面向过程的编程思想将一个功能分解为一个一个小的步骤，
+            我们通过完成一个一个的小的步骤来完成一个程序
+        - 这种编程方式，符合我们人类的思维，编写起来相对比较简单
+        - 但是这种方式编写代码的往往只适用于一个功能，
+            如果要在实现别的功能，即使功能相差极小，也往往要重新编写代码，
+            所以它可复用性比较低，并且难于维护 
+
+    - 面向对象的编程语言
+        - 面向对象的编程语言，关注的是对象，而不关注过程 
+        - 对于面向对象的语言来说，一切都是对象       
+        - 例子：
+            1.孩他妈起床叫孩子上学
+
+        - 面向对象的编程思想，将所有的功能统一保存到对应的对象中
+            比如，妈妈功能保存到妈妈的对象中，孩子的功能保存到孩子对象中
+            要使用某个功能，直接找到对应的对象即可
+        - 这种方式编写的代码，比较容易阅读，并且比较易于维护，容易复用。
+        - 但是这种方式编写，不太符合常规的思维，编写起来稍微麻烦一点 
+    
+    - 简单归纳一下，面向对象的思想
+        1.找对象
+        2.搞对象
+
+## 类(class) 
+    - 我们目前所学习的对象都是Python内置的对象
+    - 但是内置对象并不能满足所有的需求，所以我们在开发中经常需要自定义一些对象
+    - 类，简单理解它就相当于一个图纸。在程序中我们需要根据类来创建对象
+    - 类就是对象的图纸！
+    - 我们也称对象是类的实例（instance）
+    - 如果多个对象是通过一个类创建的，我们称这些对象是一类对象
+    - 像 int() float() bool() str() list() dict() .... 这些都是类
+    - a = int(10) # 创建一个int类的实例 等价于 a = 10
+    - 我们自定义的类都需要使用大写字母开头，使用大驼峰命名法（帕斯卡命名法）来对类命名
+
+    - 类也是一个对象！
+    - 类就是一个用来创建对象的对象！
+    - 类是type类型的对象，定义类实际上就是定义了一个type类型的对象
+
+    a = int(10)         创建一个int实例
+    b= str('hello')     创建一个str实例
+
+    定义类
+        使用class关键字来定义类，语法和函数很像！
+            class 类名([父类]):
+                代码块
+        class MyClass():
+            pass
+        print(MyClass,type(MyClass))      <class '__main__.MyClass'>    <class 'type'>
+    
+    使用类来创建对象，就像调用一个函数一样
+        mc = MyClass()
+        print(mc,type(mc))              <__main__.MyClass object at 0x00000203224A6860>  <class '__main__.MyClass'>
+    isinstance()用来检查一个对象是否是一个类的实例
+        result = isinstance(mc,MyClass)         true
+
+    为类定义属性和方法
+        class Person() :
+            name = 'xiaoming'
+            def say_hello(self):    定义方法时候必须定义一个形参self,创建实例时候python会自动传入这个参数
+                #方法每次被调用时，解析器都会自动传递第一个实参
+                # 第一个参数，就是调用方法的对象本身，
+                #   如果是p1调的，则第一个参数就是p1对象
+                #   如果是p2调的，则第一个参数就是p2对象
+                # 一般我们都会将这个参数命名为self
+                print('你好，我是%s'%self.name)
+        p1 = Person()
+        p2 = Person()
+        p1.say_hello()          你好，我是xiaoming
+        p2.say_hello()          你好，我是xiaoming
+        print(p1.name,p2.name)  xiaoming,xiaoming
+
+    在类中可以定义一些特殊方法（魔术方法）
+        特殊方法都是以__开头，__结尾的方法
+        特殊方法不需要我们自己调用，不要尝试去调用特殊方法
+        __init__可以用来向新创建的对象中初始化属性
+        __init__可以用来向新创建的对象中初始化属性
+        调用类创建对象时，类后边的所有参数都会依次传递到__init__()中
+        
+        class Person:
+            def __init__(self,name):
+                self.name = name
+            def say_hello(self):
+                print('大家好，我是%s'%self.name)
+        p1 = Person('xiaohong')         现在创建person实例必须传入一个值，否则会报错
+
+## 面向对象三大特性之封装
+    封装指的是隐藏对象中一些不希望被外部所访问到的属性或方法
+    如何隐藏一个对象中的属性？
+        - 将对象的属性名，修改为一个外部不知道的名字
+    如何获取（修改）对象中的属性？
+        - 需要提供一个getter和setter方法使外部可以访问到属性
+        - getter 获取对象中的指定属性（get_属性名）
+        - setter 用来设置对象的指定属性（set_属性名）
+
+        class Rectangle:
+            def __init__(self,width,height):
+                self.hidden_width = width
+                self.hidden_height = height
+            def get_width(self):
+                return self.hidden_width
+            def get_height(self):
+                return self.hidden_height
+            def set_width(self,width):
+                self.hidden_width = width
+            def set_height(self,width):
+                self.hidden_height = height
+        以上定义类实质上是改变了属性名，如果修改者知道名字为hidden_width,仍然可以通过创建实例去改变
+        例：
+            r = Rectangle(1,2)
+            r.hidden_width = 3
+            r.get_width()
+
+        可以为对象的属性使用双下划线开头，__xxx
+            双下划线开头的属性，是对象的隐藏属性，隐藏属性只能在类的内部访问，无法通过对象访问
+            其实隐藏属性只不过是Python自动为属性改了一个名字
+                实际上是将名字修改为了，_类名__属性名 比如 __name -> _Person__name
+            class Person:
+                def __init__(self,name):
+                    self.__name = name
+                def get_name(self):
+                    return self.__name
+                def set_name(self,name):
+                    self.__name = name
+            p = Person('xiaohuang')
+            p.__name = 'xiaohong'           会报错
+        
+        property装饰器，用来将一个get方法，转换为对象的属性
+            添加为property装饰器以后，我们就可以像调用属性一样使用get方法
+            使用property装饰的方法，必须和属性名是一样的
+            class Person:
+                def __init__(self,name,age):
+                    self._name = name
+                    self._age = age
+
+                @property
+                def name(self):
+                    print('get方法')
+                    return self._name
+                # setter方法的装饰器：@属性名.setter
+                @name.setter
+                def name(self,name):
+                    print('set方法')
+                    self._name = name
+                @property
+                def age(self):
+                    print('get方法')
+                    return self._age
+                # setter方法的装饰器：@属性名.setter
+                @age.setter
+                def age(self,age):
+                    print('set方法')
+                    self._age = age
+            
+            p = Person('wwwwww',18)
+            pring(p.name)           读
+            p.name = 'yyyyy'        写
+
+## 面向对象三大特性之继承
+    class Animal:
+        def run(self):
+            print('动物会跑~~~')
+
+        def sleep(self):
+            print('动物睡觉~~~')
+    class Dog(Animal):
+        def bark(self):
+            print('汪汪汪~~~') 
+
+        def run(self):
+            print('狗跑~~~~')    
+
+    class Hashiqi(Dog):
+        def fan_sha(self):
+            print('我是一只傻傻的哈士奇') 
+    d = Dog()
+    h = Hashiqi()
+    d.run()
+    d.bark()
+
+    在创建类时，如果省略了父类，则默认父类为object
+        object是所有类的父类，所有类都继承自object
+        print(isinstance(print , object))
+    
+    issubclass() 检查一个类是否是另一个类的子类
+         print(issubclass(Animal , Dog))     True
+         print(issubclass(Animal , object))  True
