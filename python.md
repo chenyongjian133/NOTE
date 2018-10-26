@@ -1486,3 +1486,55 @@
     issubclass() 检查一个类是否是另一个类的子类
          print(issubclass(Animal , Dog))     True
          print(issubclass(Animal , object))  True
+
+    重写
+        当我们调用一个对象的方法时，
+        会优先去当前对象中寻找是否具有该方法，如果有则直接调用
+        如果没有，则去当前对象的父类中寻找，如果父类中有则直接调用父类中的方法，
+        如果没有，则去父类的父类中寻找，以此类推，直到找到object，如果依然没有找到，则报错
+
+    父类中的所有方法都会被子类继承，包括特殊方法，也可以重写特殊方法
+        class Animal:
+            def __init__(self,name):
+                self._name = name
+            def run(self):
+                print('run')
+            @property
+            def name(self)：
+                return self._name
+            @name.setter
+            def name(self,name):
+                self._name = name
+            
+        class Dog(Animal):
+            def __init__(self,name,age):
+                # 希望可以直接调用父类的__init__来初始化父类中定义的属性
+                # super() 可以用来获取当前类的父类，
+                #   并且通过super()返回对象调用父类方法时，不需要传递self
+                super().__init__(name)
+                self._age = age
+            def bark(self):
+                print('bark')
+            @property
+            def age(self)：
+                return self._agee
+            @name.setter
+            def age(self,age):
+                self._age = age
+
+        在Python中是支持多重继承的，也就是我们可以为一个类同时指定多个父类
+            可以在类名的()后边添加多个类，来实现多重继承
+            多重继承，会使子类同时拥有多个父类，并且会获取到所有父类中的方法
+            如果多个父类中有同名的方法，则会现在第一个父类中寻找，然后找第二个，然后找第三个。。。
+            前边父类的方法会覆盖后边父类的方法
+        class A(object):
+            def test(self):
+                print('aaa')
+        class B(object):
+            def test(self):
+                print('bbb')
+            def test2(self):
+                print('test2')
+        class C(A,B):
+            pass
+        c=
