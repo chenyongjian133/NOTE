@@ -1537,4 +1537,56 @@
                 print('test2')
         class C(A,B):
             pass
-        c=
+        c=C()
+        C.test()
+
+## 面向对象三大特性之多态
+    多态指的是一个对象可以以不同的形态去呈现
+        例
+            狗（狼狗、藏獒、哈士奇、古牧 。。。）
+    
+    class A:
+        def __init__(self,name):
+            self._name = name
+        @property
+        def name(self):
+            return self._name
+        @name.setter
+        def name(self,name):
+            self._name = name
+    
+    class B：
+        def __init__(self,name):
+            self._name = name
+        def __len__(self):
+            return 10
+        @property
+        def name(self):
+            return self._name
+        @name.setter
+        def name(self,name):
+            self._name = name
+    
+    class C:
+        def __len__(self):
+            return 12
+        pass
+    
+    定义一个函数
+        对于say_hello()这个函数来说，只要对象中含有name属性，它就可以作为参数传递
+        这个函数并不会考虑对象的类型，只要有name属性即可
+
+    如果一个东西，走路像鸭子，叫声像鸭子，那么它就是鸭子
+
+    len()就是多态
+        之所以一个对象能通过len()来获取长度，是因为对象中具有一个特殊方法__len__
+        换句话说，只要对象中具有__len__特殊方法，就可以通过len()来获取它的长度
+
+        l = [1,2,3]
+        s = 'hello'
+        b = B('xiaoming')
+        c = C()
+        print(len(l))
+        print(len(s))
+        print(len(b))
+        print(len(c))
