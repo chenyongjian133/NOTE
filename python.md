@@ -1590,3 +1590,162 @@
         print(len(s))
         print(len(b))
         print(len(c))
+
+## 类中的属性和方法
+    分类
+        # 类属性
+        # 实例属性
+        # 类方法
+        # 实例方法
+        # 静态方法
+    class A(object):
+        # 类属性，直接在类中定义的属性是类属性
+        # 类属性可以通过类或类的实例访问到
+        #  但是类属性只能通过类对象来修改，无法通过实例对象修改
+        count = 0
+        def __init__(self):
+            # 实例属性，通过实例对象添加的属性属于实例属性
+            # 实例属性只能通过实例对象来访问和修改，类对象无法访问修改
+            self.name = 'xiaohong'
+        # 实例方法
+        # 在类中定义，以self为第一个参数的方法都是实例方法
+        # 实例方法在调用时，Python会将调用对象作为self传入  
+        # 实例方法可以通过实例和类去调用
+        # 当通过实例调用时，会自动将当前调用对象作为self传入
+        # 当通过类调用时，不会自动传递self，此时我们必须手动传递self
+        def test(self):
+            print('这是test方法~~~ ' , self)
+        # 类方法    
+        # 在类内部使用 @classmethod 来修饰的方法属于类方法
+        # 类方法的第一个参数是cls，也会被自动传递，cls就是当前的类对象
+        # 类方法和实例方法的区别，实例方法的第一个参数是self，而类方法的第一个参数是cls
+        # 类方法可以通过类去调用，也可以通过实例调用，没有区别
+        @classmethod
+        def test_2(cls):
+            print('这是test_2方法，他是一个类方法~~~ ',cls)
+            print(cls.count)
+        # 静态方法
+        # 在类中使用 @staticmethod 来修饰的方法属于静态方法  
+        # 静态方法不需要指定任何的默认参数，静态方法可以通过类和实例去调用  
+        # 静态方法，基本上是一个和当前类无关的方法，它只是一个保存到当前类中的函数
+        # 静态方法一般都是一些工具方法，和当前类无关
+        @staticmethod
+        def test_3():
+            print('test_3执行了~~~')
+
+    a = A()
+    a.count = 10
+    A.count = 100
+    print('A ,',A.count)            A , 100
+    print('a ,',a.count)            a , 10
+    print('A ,',A.name)             AttributeError: type object 'A' has no attribute 'name'
+    print('a ,',a.name)             a,xiaohong
+    .test() 等价于 A.test(a)
+    A.test_2() 等价于 a.test_2()
+
+## 垃圾回收
+    在Python中有自动的垃圾回收机制，它会自动将这些没有被引用的对象删除，
+    class A:
+        pass
+    a = A()
+    a = None        此时没有任何的变量对A()对象进行引用，它就是变成了垃圾
+
+## 特殊方法
+    也称为魔术方法
+        特殊方法都是使用__开头和结尾的
+        特殊方法一般不需要我们手动调用，需要在一些特殊情况下自动执行
+    class Person(object):
+        def __init__(self,name,age):
+            self.name = name
+            self.age = age
+        # __str__（）这个特殊方法会在尝试将对象转换为字符串的时候调用
+        # 它的作用可以用来指定对象转换为字符串的结果  （print函数） 
+        def __str__(self):
+            return 'Person [name=%s,age=%d]'%(self.name,self.age)
+        # __repr__()这个特殊方法会在对当前对象使用repr()函数时调用
+        # 它的作用是指定对象在 ‘交互模式’中直接输出的效果    
+        def __repr__(self):
+            return 'Hello'
+        # __len__()获取对象的长度
+
+        #继承自object的特殊方法
+        # object.__add__(self, other)
+        # object.__sub__(self, other)
+        # object.__mul__(self, other)
+        # object.__matmul__(self, other)
+        # object.__truediv__(self, other)
+        # object.__floordiv__(self, other)
+        # object.__mod__(self, other)
+        # object.__divmod__(self, other)
+        # object.__pow__(self, other[, modulo])
+        # object.__lshift__(self, other)
+        # object.__rshift__(self, other)
+        # object.__and__(self, other)
+        # object.__xor__(self, other)
+        # object.__or__(self, other)
+
+        # object.__lt__(self, other) 小于 <
+        # object.__le__(self, other) 小于等于 <=
+        # object.__eq__(self, other) 等于 ==
+        # object.__ne__(self, other) 不等于 !=
+        # object.__gt__(self, other) 大于 >
+        # object.__ge__(self, other) 大于等于 >= 
+
+        # object.__bool__(self)
+        # 可以通过bool来指定对象转换为布尔值的情况
+        def __bool__(self):
+            return self.age > 17
+        # __gt__会在对象做大于比较的时候调用，该方法的返回值将会作为比较的结果
+        # 他需要两个参数，一个self表示当前对象，other表示和当前对象比较的对象
+        # self > other
+        def __gt__(self , other):
+            return self.age > other.age
+
+## 模块（module）
+    模块化的特点：
+       ① 方便开发
+       ② 方便维护
+       ③ 模块可以复用！
+
+    在Python中一个py文件就是一个模块，要想创建模块，实际上就是创建一个python文件
+    注意：模块名要符号标识符的规范
+
+    引入模块(2种方式)
+        import 模块名       #模块名就是python文件的名字，不要.py
+        import 模块名 as 模块别名
+    - 可以引入同一个模块多次，但是模块的实例只会创建一个
+    - import可以在程序的任意位置调用，但是一般情况下，import语句都会统一写在程序的开头
+    - 在每一个模块内部都有一个__name__属性，通过这个属性可以获取到模块的名字
+    - __name__属性值为 __main__的模块是主模块，一个程序中只会有一个主模块
+    -  主模块就是我们直接通过 python 执行的模块
+    例：在index.py中引入test_module.py模块
+        import test_module as test
+        print(test.__name__)        # test_module
+        print(__name__)            #  __main__
+
+    访问模块中的变量：模块名.变量名
+        import m
+        print(m.name,m.age,m.test())
+        def test2():
+            print('这是主模块中的test2')
+        
+    只引入模块中的部分内容
+        语法
+            from 模块名 import 变量,变量。。。
+        例
+            from m import Person        #引入单个
+            from m import Person,test   #引入多个
+            from m import *         #引入模块中所有内容，一般不会使用
+            from m import test as new_test2  #用别名
+        
+            p1=Person()
+            test()          #主模块的test方法
+            new_test2()     #引入模块的test方法
+    
+    总结-引入模块的所有方式
+        # import xxx
+        # import xxx as yyy
+        # from xxx import yyy , zzz , fff
+        # from xxx import *
+        # from xxx import yyy as zz
+
