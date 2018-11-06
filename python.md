@@ -1822,3 +1822,244 @@
     # 可以用来执行操作系统的名字
     # os.system('dir')
     os.system('notepad')
+
+## 处理异常
+    程序运行时出现异常，Hui   
+
+    try语句
+        try:
+            代码块（可能出现错误的语句）
+        except 异常类型 as 异常名:
+            代码块（出现错误以后的处理方式）
+        except 异常类型 as 异常名:
+            代码块（出现错误以后的处理方式）
+        except 异常类型 as 异常名:
+            代码块（出现错误以后的处理方式）
+        else：
+            代码块（没出错时要执行的语句）    
+        finally:
+            代码块（该代码块总会执行）    
+
+        try是必须的 else语句有没有都行
+        except和finally至少有一个    
+
+    可以将可能出错的代码放入到try语句，这样如果代码没有错误，则会正常执行，
+        如果出现错误，则会执行expect子句中的代码，这样我们就可以通过代码来处理异常
+        避免因为一个异常导致整个程序的终止     
+
+    异常类
+        try:
+            print(10/0)
+        except NameError:               # 如果except后不跟任何的内容，则此时它会捕获到所有的异常
+            print('出现 NameError 异常')     
+        except ZeroDivisionError:
+            print('出现 ZeroDivisionError 异常')  
+        except IndexError:
+            print('出现 IndexError 异常')
+        except Exception as e:          # Exception 是所有异常类的父类，所以如果except后跟的是Exception，他也会捕获到所有的异常 as ...是别名
+            print('未知异常',e,type(e))
+        finally:
+            print('无论是否出现异常，该子句都会执行')
+
+    自定义异常
+        创建一个类继承Exception即可
+        class  MyError(Exception):
+            pass
+        def add(a,b):
+            if a<0 or b>0:
+                raise MyError('自定义的异常')       # raise用于向外部抛出异常，后边可以跟一个异常类，或异常类的实例 raise Exception
+            r = a+b
+            return r
+        print(add(-12,45))
+
+## 异常的传播（抛出异常）
+    当在函数中出现异常时，如果在函数中对异常进行了处理，则异常不会再继续传播,
+        如果函数中没有对异常进行处理，则异常会继续向函数调用处传播,
+        如果函数调用处处理了异常，则不再传播，如果没有处理则继续向调用处传播
+        直到传递到全局作用域（主模块）如果依然没有处理，则程序终止，并且显示异常信息
+
+    当程序运行过程中出现异常以后，所有的异常信息会被保存一个专门的异常对象中，
+        而异常传播时，实际上就是异常对象抛给了调用处
+        比如 ： ZeroDivisionError类的对象专门用来表示除0的异常
+                NameError类的对象专门用来处理变量错误的异常
+                ....
+
+    在Python为我们提供了多个异常对象            
+
+## 抛出异常
+    - 可以使用 raise 语句来抛出异常，
+        raise语句后需要跟一个异常类 或 异常的实例
+
+## 文件（File）
+    - 通过Python程序来对计算机中的各种文件进行增删改查的操作
+    - I/O(Input / Output)
+    - 操作文件的步骤：
+        ① 打开文件
+        ② 对文件进行各种操作（读、写），然后保存
+        ③ 关闭文件
+
+## 打开文件
+    open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)
+
+    使用open函数来打开一个文件
+        参数：
+            file 要打开的文件的名字（路径）
+        返回值：
+            返回一个对象，这个对象就代表了当前打开的文件
+        
+        file_name = 'demo.txt'  # 如果目标文件和当前文件在同一级目录下，则直接使用文件名即可
+        file_name = 'hello\\demo.txt'       #\转义\
+        file_name = 'hello/demo.txt'        #在window下可以使用/代替\
+        file_name = r'hello\demo.txt'       #使用原始字符串r
+        file_name = r'C:\Users\lilichao\Desktop\hello.txt'      #如果目标文件距离当前文件比较远，此时可以使用绝对路径
+
+        例：
+            # 使用open打开文件
+            file_name = 'demo.txt'
+            file_obj = open(file_name)
+            # 使用read方法读取文件内容
+            content = file_obj.read()
+            # 关闭文件
+            file_obj.close()
+    
+    使用with ... as语句自动关闭文件
+        with open(file_name) as file_obj:
+            print(file_obj.read())          # 一旦with结束则文件会自动close()
+    
+    捕获文件不存在异常
+        try:
+            with open(file_name) as file_obj:
+                print(file_obj.read())
+        except FileNotFoundError:
+            print('文件不存在')
+
+    open()函数补充-读取中文字符和mp3等二进制文件
+        文件分类
+            1.纯文本文件(使用utf-8编码)
+            2.二进制文件(图片，视频，音频，ppt等)
+        open打开文件默认是文本文件形式，默认编码类型是None
+        例子
+            file_name = 'demo2.txt'     #中文文件
+            # 处理文本文件时，必须指定文件编码
+            try:
+                with open(file_name,encoding='utf-8') as file_obj:
+                    help(file_obj.read)     #获取read函数帮助
+                    #read接收一个size参数,默认-1，读取所有字符,修改size读取希望读取的长度
+                    content = file_obj.read(6)
+            except FileNotFoundError:
+                pass
+
+        读取大文件的正确方式
+            file_name = 'demo2.txt'     #中文文件
+            try:
+                with open(file_name,encoding='utf-8') as file_obj：
+                    file_content = ''       # 内容，用来叠加
+                    chunk = 100             # 每次读取的长度
+                    while True:
+                        content = file_obj.read(chunk)
+                        # 当读完的时候退出循环
+                        if not content:
+                            bread
+                        file_content += content
+            except FileNotFoundError:
+                pass
+            print(file_content)
+    
+    readline()以行来读取
+        file_name = 'demo.txt'
+        with open(file_name,encoding='utf-8') as file_obj:
+            print(file_obj.readline(),end='')
+
+    readlines()该方法用于一行一行的读取内容，它会一次性将读取到的内容封装到一个列表中返回
+        import pprint
+        import os
+        file_name = 'demo.txt'
+        with open(file_name,encoding='utf-8') as file_obj:
+            r = file_obj.readlines()
+            pprint.print(r[0])
+            pprint.print(r[1])
+            pprint.print(r[2])
+    
+    用for读取内容
+        file_name = 'demo.txt'
+        with open(file_name,encoding='utf-8') as file_obj:
+            for t in file_obj:
+                print(t)
+            
+    读二进制文件
+        # 读取模式
+        # r 读取文本文件（默认值）
+        # b 读取二进制文件
+        file_name = 'c:/Users/lilichao/Desktop/告白气球.flac'
+        with open(file_name,'rb') as file_obj:
+            # 读取文本文件时，size是以字符为单位的
+            # 读取二进制文件时，size是以字节为单位
+            <!-- print(file_obj.read(100)) -->
+            # 把读到的内容写出来
+            new_name = 'aa.flac'
+            with open(new_name,'wb') as new_obj:
+                chunk = 1024*100        #每次读的大小
+                while True:
+                    content = file_obj.read(chunk)      # 从已有的对象中读取数据
+                    if not content:
+                        break
+                    new_obj.write(content)       # 将读取到的数据写入到新对象中
+
+
+## 写文件
+    使用open()打开文件时必须要指定打开文件所要做的操作（读、写、追加）
+        如果不指定操作类型，则默认是 读取文件 ， 而读取文件时是不能向文件中写入的
+    r   只读
+    w   可写-文件不存在时创建，如果存在会覆盖原来的内容
+    a   追加-文件不存在时创建，如果存在会追加内容
+    x   新建文件，不存在时创建，存在则报错
+    +   为操作符扩展功能
+    r+  可读可写，文件不存在会报错
+    w+
+    a+
+
+    file_name = 'demo5.txt'
+    with open(file_name , 'w' , encoding='utf-8') as file_obj:
+        # write()来向文件中写入内容，
+        # 如果操作的是一个文本文件的话，则write()需要传递一个字符串作为参数
+        # 该方法会可以分多次向文件中写入内容
+        # 写入完成以后，该方法会返回写入的字符的个数
+        file_obj.write('aaa\n')
+        file_obj.write('bbb\n')
+        file_obj.write('ccc\n')
+        r = file_obj.write(str(123)+'123123\n')
+        r = file_obj.write('今天天气真不错')
+        print(r)                        # 7 只有最后一次的写入
+    
+## 读取文件位置
+    seek()需要两个参数
+        第一个 是要切换到的位置
+        第二个 计算位置方式
+            可选值：
+            0 从头计算，默认值
+            1 从当前位置计算
+            2 从最后位置开始计算
+    tell() 方法用来查看当前读取的位置
+    with open('demo.txt','rb') as file_obj:
+        print(file_obj.read(100))
+        file_obj.seek(55)       # seek() 可以修改当前读取的位置
+
+## 文件的其他操作
+    import os
+    from pprint import pprint
+    # os.listdir() 获取指定目录的目录结构
+    # 需要一个路径作为参数，会获取到该路径下的目录结构，默认路径为 . 当前目录
+    # 该方法会返回一个列表，目录中的每一个文件（夹）的名字都是列表中的一个元素
+    pprint(os.listdir())    #返回一个数组，包含该目录下的所有文件
+    # os.getcwd() 获取当前所在的目录
+    pprint(os.getcwd())     #'D:\\资料\\尚硅谷Python核心基础\\01-代码-笔记\\01-代码-笔记\\lesson_07_异常和文件\\code'
+    # os.chdir() 切换当前所在的目录 作用相当于 cd
+    # os.chdir('c:/')
+    # 创建目录
+    # os.mkdir("aaa") # 在当前目录下创建一个名字为 aaa 的目录
+    # 删除目录
+    # os.rmdir('abc')
+    # 删除文件
+    # os.remove('aa.txt')
+    # os.rename('旧名字','新名字') 可以对一个文件进行重命名，也可以用来移动一个文件
+    # os.rename('aa.txt','bb.txt')
