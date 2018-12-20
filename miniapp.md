@@ -1,4 +1,5 @@
 ## 代码构成
+
 ## JSON配置
     app.json 是当前小程序的全局配置，包括了小程序的所有页面路径、界面表现、网络超时时间、底部 tab 等
         {
@@ -70,14 +71,14 @@
         compileType 有效值
             miniprogram         当前为普通小程序项目
             plugin              当前为小程序插件项目
-
+    
         setting 中可以指定以下设置
             es6                 是否启用 es6 转 es5 Boolean
             postcss             上传代码时样式是否自动补全 Boolean
             minified            上传代码时是否自动压缩  Boolean
             urlCheck            是否检查安全域名和 TLS 版本 Boolean
             uglifyFileName      是否进行代码保护  Boolean
-
+    
         scripts 中指定自定义预处理的命令
             beforeCompile       编译前预处理命令
             beforePreview       预览前预处理命令
@@ -86,10 +87,10 @@
         packOptions 用以配置项目在打包过程中的选项。打包是预览、上传时对项目进行的必须步骤
             目前可以指定 packOptions.ignore 字段，用以配置打包时对符合指定规则的文件或文件夹进行忽略，以跳过打包的过程，这些文件或文件夹将不会出现在预览或上传的结果内。
             packOptions.ignore 为一对象数组，对象元素类型如下
-
+    
             value               路径或取值string
             type                类型string
-
+    
             type 可以取的值为 folder、file、suffix、prefix、regexp2、glob2，分别对应文件夹、文件、后缀、前缀、正则表达式、Glob 规则。所有规则值都会自动忽略大小写。
             注 1: value 字段的值若表示文件或文件夹路径，以小程序目录 (miniprogramRoot) 为根目录。
             注 2: regexp、glob 仅 1.02.1809260 及以上版本工具支持。 
@@ -118,13 +119,13 @@
                     }]
                 }
             }
-
+    
         debugOptions 用以配置在对项目代码进行调试时的选项。
             目前可以指定 debugOptions.hidedInDevtools 字段，用以配置调试时于调试器 Sources 面板隐藏源代码的文件。
             hidedInDevtools 的配置规则和 packOptions.ignore 是一致的。
             当某个 js 文件符合此规则时，调试器 Sources 面板中此文件源代码正文内容将被隐藏，显示为：
                 // xxx.js has been hided by project.config.json
-
+    
         项目配置示例：         
             {
                 "miniprogramRoot": "./src",
@@ -142,24 +143,24 @@
             }
 
 
-    
-    page.json
-        {
-            "navigationBarBackgroundColor": '',         //导航栏背景颜色，如 #000000
-            "navigationBarTextStyle": '',               //导航栏标题颜色，仅支持 black / white
-            "navigationBarTitleText": '',               //导航栏标题文字内容
-            "backgroundColor": '',                      //窗口的背景色
-            "backgroundTextStyle": '',                  //下拉 loading 的样式，仅支持 dark / light
-            "enablePullDownRefresh": '',                //是否全局开启下拉刷新。
-            "onReachBottomDistance": '',                //页面上拉触底事件触发时距页面底部距离，单位为px。
-            "disableScroll": '',                        //设置为 true 则页面整体不能上下滚动；只在页面配置中有效，无法在 app.json 中设置该项
-        }
+​    
+​    page.json
+​        {
+​            "navigationBarBackgroundColor": '',         //导航栏背景颜色，如 #000000
+​            "navigationBarTextStyle": '',               //导航栏标题颜色，仅支持 black / white
+​            "navigationBarTitleText": '',               //导航栏标题文字内容
+​            "backgroundColor": '',                      //窗口的背景色
+​            "backgroundTextStyle": '',                  //下拉 loading 的样式，仅支持 dark / light
+​            "enablePullDownRefresh": '',                //是否全局开启下拉刷新。
+​            "onReachBottomDistance": '',                //页面上拉触底事件触发时距页面底部距离，单位为px。
+​            "disableScroll": '',                        //设置为 true 则页面整体不能上下滚动；只在页面配置中有效，无法在 app.json 中设置该项
+​        }
 
 ## js配置
     app.js
         App() 函数用来注册一个小程序。接受一个 Object 参数，其指定小程序的生命周期回调等
         App() 必须在 app.js 中调用，必须调用且只能调用一次。不然会出现无法预期的后果
-
+    
         App({
             globalData：{}                        //全局数据
             onLaunch:function(Object){}               //小程序初始化完成时（全局只触发一次）
@@ -169,7 +170,7 @@
             onPageNotFound:function(){}        //小程序要打开的页面不存在时触发，会带上页面信息回调该函数
             其他                            //开发者可以添加任意的函数或数据到 Object 参数中，用 this 可以访问
         })
-
+    
         onLaunch(Object)参数说明
             path            //打开小程序的路径String
             query            //打开小程序的query object
@@ -178,7 +179,7 @@
             referrerInfo            //当场景为由从另一个小程序或公众号或App打开时，返回此字段Object
             referrerInfo.appId            //来源小程序或公众号或App的 appId，详见下方说明String
             referrerInfo.extraData            //打开小程序的路径String来源小程序传过来的数据，scene=1037或1038时支持object
-
+    
         以下场景支持返回 referrerInfo.appId：
             场景值	            场景	                appId信息含义
             1020	公众号 profile 页相关小程序列表	    来源公众号 appId
@@ -187,7 +188,7 @@
             1037	小程序打开小程序	                来源小程序 appId
             1038	从另一个小程序返回	                来源小程序 appId
             1043	公众号模板消息	                    来源公众号 appId
-
+    
         onShow(Object)参数与onLaunch一致
         onHide()
         onError(String error)   小程序发生脚本错误，或者 api 调用失败时触发。
@@ -215,7 +216,7 @@
         Object 参数说明：
             字段	类型	说明
             allowDefault    Boolean       在 App 未定义时返回默认实现。当App被调用时，默认实现中定义的属性会被覆盖合并到App中。一般用于独立分包。
-
+    
         demo
         var appInstance = getApp()
         不要在定义于 App() 内的函数中调用 getApp() ，使用 this 就可以拿到 app 实例。
@@ -236,7 +237,7 @@
             //页面初次渲染完成时触发。一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。
             //注意：对界面内容进行设置的 API 如wx.setNavigationBarTitle，请在onReady之后进行
             onReady(){
-
+    
             },
             onHide(){},
             onUnload(){},
@@ -263,7 +264,7 @@
                 //  from        转发事件来源。button：页面内转发按钮；menu：右上角转发菜单
                 //  target      如果 from 值是 button，则 target 是触发这次转发事件的 button，否则为 undefined
                 //  webViewUrl  页面中包含<web-view>组件时，返回当前<web-view>的url
-
+    
                 //onShareAppMessage需要 return 一个 Object，用于自定义转发内容，返回内容如下：
                 return {
                     title: '',          //转发标题,默认当前小程序名称
@@ -279,7 +280,7 @@
                 //  text	    被点击tabItem的按钮文字
             }
         })
-
+    
         Page.route
             到当前页面的路径，类型为String。
             demo
@@ -288,25 +289,25 @@
                     console.log(this.route)
                 }
             })
-
+    
         Page.prototype.setData(Object data, Function callback)
             Object 以 key: value 的形式表示，将 this.data 中的 key 对应的值改变成 value。
             其中 key 可以以数据路径的形式给出，支持改变数组中的某一项或对象的某个属性，如 array[2].message，a.b.c.d，并且不需要在 this.data 中预先定义。
-
+    
         页面栈
             特别注意    
                 Tab 切换    页面全部出栈，只留下新的 Tab 页面
                 重加载      页面全部出栈，只留下新的页面
             getCurrentPages() 函数用于获取当前页面栈的实例，以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。
-
+    
             不要在 App.onLaunch 的时候调用 getCurrentPages()，此时 page 还没有生成。
-
+    
             navigateTo, redirectTo 只能打开非 tabBar 页面。
             switchTab 只能打开 tabBar 页面。
             reLaunch 可以打开任意页面。
             页面底部的 tabBar 由页面决定，即只要是定义为 tabBar 的页面，底部都有 tabBar。
             调用页面路由带的参数可以在目标页面的onLoad中获取。
-
+    
             demo重加载
                 重启动	调用 API wx.reLaunch 或使用组件 <navigator open-type="reLaunch"/>
 
@@ -320,7 +321,7 @@
     
     js 中引入 npm 包：
         const package = require('packageName')
-
+    
     使用 npm 包中的自定义组件：
         {
             "usingComponents": {
@@ -331,15 +332,15 @@
 
 ## 视图层 View
     框架的视图层由 WXML 与 WXSS 编写，由组件来进行展示。
-
+    
     将逻辑层的数据反应成视图，同时将视图层的事件发送给逻辑层。
-
+    
     WXML(WeiXin Markup language) 用于描述页面的结构。
-
+    
     WXS(WeiXin Script) 是小程序的一套脚本语言，结合 WXML，可以构建出页面的结构。
-
+    
     WXSS(WeiXin Style Sheet) 用于描述页面的样式。
-
+    
     组件(Component)是视图的基本组成单元。
 
 ## 数据绑定
@@ -374,22 +375,22 @@
             array: [1, 2, 3, 4, 5]
         }
     })
-
+    
     wx:key
         wx:key="unique"      //unique是唯一标识
         wx:key="*this"      //this指自己
-
+    
     使用 wx:for-item 可以指定数组当前元素的变量名，
     使用 wx:for-index 可以指定数组当前下标的变量名：
     <view wx:for="{{array}}" wx:for-index="idx" wx:for-item="itemName">
         {{idx}}: {{itemName.message}}
     </view>
-
+    
     <block wx:for="{{[1, 2, 3]}}">              渲染多层结构可以用block包裹
         <view> {{index}}: </view>
         <view> {{item}} </view>
     </block>
-
+    
     当 wx:for 的值为字符串时，会将字符串解析成字符串数组
         <view wx:for="array">
             {{item}}
@@ -407,7 +408,7 @@
             view: 'MINA'
         }
     })
-
+    
     wx:if vs hidden
         wx:if 是惰性的，当初始条件为false时，什么也不做
         hidden 就简单的多，组件始终会被渲染，只是简单的控制显示与隐藏
@@ -418,7 +419,7 @@
         FirstName: {{firstName}}, LastName: {{lastName}}
     </view>
     </template>
-
+    
     <template is="staffName" data="{{...staffA}}"></template>
     <template is="staffName" data="{{...staffB}}"></template>
     <template is="staffName" data="{{...staffC}}"></template>
@@ -429,19 +430,19 @@
             staffC: {firstName: 'Gideon', lastName: 'Lin'}
         }
     })
-
+    
     <template name="odd">
         <view> odd </view>
     </template>
-
+    
     <template name="even">
         <view> even </view>
     </template>
-
+    
     <block wx:for="{{[1, 2, 3, 4, 5]}}">   is 属性可以使用 Mustache 语法，来动态决定具体需要渲染哪个模板：
         <template is="{{item % 2 == 0 ? 'even' : 'odd'}}"/>
     </block>
-
+    
     模板的作用域
         模板拥有自己的作用域，只能使用 data 传入的数据以及模板定义文件中定义的 <wxs /> 模块。
 ## 事件
@@ -457,7 +458,7 @@
         animationiteration  会在一个 WXSS animation 一次迭代结束时触发
         animationend        会在一个 WXSS animation 动画完成时触发
         touchforcechange     在支持 3D Touch 的 iPhone 设备，重按时会触发
-
+    
         注：除上表之外的其他组件自定义事件如无特殊声明都是非冒泡事件，如<form/>的submit事件，<input/>的input事件，<scroll-view/>的scroll事件
     
     事件绑定写法
@@ -465,10 +466,10 @@
         bind:tap
         catchtap    catchtouchstart         阻止冒泡
         catch:touchstart
-
+    
     事件的捕获阶段
         捕获阶段位于冒泡阶段之前，且在捕获阶段中，事件到达节点的顺序与冒泡阶段恰好相反。需要在捕获阶段监听事件时，可以采用capture-bind、capture-catch关键字，后者将中断捕获阶段和取消冒泡阶段。
-
+    
         在下面的代码中，点击 inner view 会先后调用handleTap2、handleTap4、handleTap3、handleTap1。
         <view id="outer" bind:touchstart="handleTap1" capture-bind:touchstart="handleTap2">
         outer view
@@ -476,7 +477,7 @@
             inner view
         </view>
         </view>
-
+    
         如果将上面代码中的第一个capture-bind改为capture-catch，将只触发handleTap2。
         <view id="outer" bind:touchstart="handleTap1" capture-catch:touchstart="handleTap2">
         outer view
@@ -484,15 +485,15 @@
             inner view
         </view>
         </view>
-
+    
     BaseEvent 基础事件对象属性列表：
         target              触发事件的组件的一些属性值集合
         currentTarget       当前组件的一些属性值集合
-
+    
     TouchEvent 触摸事件对象属性列表（继承 BaseEvent）
         touches         触摸事件，当前停留在屏幕中的触摸点信息的数组
         changedTouches  触摸事件，当前变化的触摸点信息的数组
-
+    
     CustomEvent 自定义事件对象属性列表（继承 BaseEvent）
         detail      object        额外的信息
         自定义事件所携带的数据，如表单组件的提交事件会携带用户的输入，媒体的错误事件会携带错误信息，详见组件定义中各个事件的定义。
@@ -501,13 +502,13 @@
 
     touches
         touches 是一个数组，每个元素为一个 Touch 对象（canvas 触摸事件中携带的 touches 是 CanvasTouch 数组）。 表示当前停留在屏幕上的触摸点。
-
+    
     Touch 对象
         属性	        类型	说明
         identifier	    Number	触摸点的标识符
         pageX, pageY	Number	距离文档左上角的距离，文档的左上角为原点 ，横向为X轴，纵向为Y轴
         clientX, clientY	Number	距离页面可显示区域（屏幕除去导航条）左上角距离，横向为X轴，纵向为Y轴
-
+    
     CanvasTouch 对象
         属性	        类型	说明
         identifier	    Number	触摸点的标识符
@@ -520,7 +521,7 @@
     
     target&currentTarget下面的主要属性
         dataset         事件源组件上由data-开头的自定义属性组成的集合
-
+    
     dataset
          以data-开头，多个单词由连字符-链接，不能有大写(大写会自动转成小写)如data-element-type，最终在 event.currentTarget.dataset 中会将连字符转成驼峰elementType。
 
@@ -531,20 +532,20 @@
         <template name="item">
             <text>{{text}}</text>
         </template>
-
+    
         在 index.wxml 中引用了 item.wxml，就可以使用item模板：
         <import src="item.wxml"/>
         <template is="item" data="{{text: 'forbar'}}"/>
-
+    
     include 可以将目标文件除了 <template/> <wxs/> 外的整个代码引入，相当于是拷贝到 include 位置
         <!-- index.wxml -->
         <include src="header.wxml"/>
             <view> body </view>
         <include src="footer.wxml"/>
-
+    
         <!-- header.wxml -->
         <view> header </view>
-
+    
         <!-- footer.wxml -->
         <view> footer </view>
 
@@ -556,16 +557,16 @@
             即 1rpx = 0.5px
             只要拿i6做视觉稿
             以375宽度设计的，乘以2就可以兼容所有设备
-
+    
     px换算rpx
         750/屏幕宽度
-
+    
     样式导入
         @import 'xxx.wxss';
-
+    
     style
         <view style="color:{{color}};">test</view>
-
+    
     class
         <view class="abc {{myclass}}">text</view>
 
@@ -577,26 +578,26 @@
         wxs和js代码是隔离的，只能调用js文件中的data，wxs中不能调用js文件中的函数，也不能调用微信的api
         wxs函数不能作为组件的事件回调
         在ios上运行速度比js快2-20倍，在安卓上差不多
-
+    
     例：
         <!--wxml-->
         <wxs module="m1">
         var msg = "hello world";
         module.exports.message = msg;
         </wxs>
-
+    
         <view>{{m1.message}}</view>
-
+    
         页面效果
             hello world
-
+    
     例：    
         Page({
             data:{
                 array:[1,2,3,4,5,6,6,67,,8]
             }
         })
-
+    
         <!--wxml-->
         <wxs module="m1">
         var getMax = function(array){
@@ -610,24 +611,24 @@
         }
         module.exports.getMax = getMax;
         </wxs>
-
+    
         <view>{{m1.getMax(array)}}</view>
         页面输出
             67
 
 ## wxs语法
     wxs代码可以写在wxml文件内以<wxs>标签方式展示。或以.wxs为后缀的文件内
-
+    
     模块
         每一个 .wxs 文件和 <wxs> 标签都是一个单独的模块。
         每个模块都有自己独立的作用域。即在一个模块里面定义的变量与函数，默认为私有的，对其他模块不可见。
         一个模块要想对外暴露其内部的私有变量与函数，只能通过 module.exports 实现。
-
+    
     module 对象
         每个 wxs 模块均有一个内置的 module 对象。
-
+    
         pages/tools.wxs
-
+    
         var foo = 'hello'
         var bar = function(d){
             return d
@@ -637,14 +638,14 @@
             bar:bar
         }
         module.exports.msg = 'world'
-
+    
         引用该wxs文件
         index.wxml
-
+    
         <wxs src="./../tools.wxs" module='tools' />
         <view>{{tools.msg}}</view>
         <view>{{tools.bar(tools.FOO)}}</view>
-
+    
         页面输出
             world
             helloworld
@@ -655,24 +656,24 @@
             只能引用 .wxs 文件模块，且必须使用相对路径。
             wxs 模块均为单例，wxs 模块在第一次被引用时，会自动初始化为单例对象。多个页面，多个地方，多次引用，使用的都是同一个 wxs 模块对象。
             如果一个 wxs 模块在定义之后，一直没有被引用，则该模块不会被解析与运行。
-
+    
         pages/logic.wxs
         var tools = require('./tools.wxs')
         console.log(tools.FOO)
         console.log(tools.bar('logic.wxs'))
-
+    
         index.wxml引用logic.wxs
         <wxs src='./../logic.wxs' module='logic' />
-
+    
     作用域
         <wxs> 模块只能在定义模块的 WXML 文件中被访问到。使用 <include> 或 <import> 时，<wxs> 模块不会被引入到对应的 WXML 文件中。
         <template> 标签中，只能使用定义该 <template> 的 WXML 文件中定义的 <wxs> 模块
-
+    
     wxs的变量命名
         和js一致
-
+    
     wxs的注释：和js一致
-
+    
     运算符
         基本运算符
             +，-，*，/，%       加减乘除模
@@ -701,10 +702,10 @@
         逗号运算
             var a=10,b=20
             console.log(20===(a,b))         //true
-
+    
     语句
         if，for，while，switch，do while等语法和js一致，支持break，continue
-
+    
     数据类型
         number  数值(包含整数和小数)
         string  字符串
@@ -714,7 +715,7 @@
         array   数组
         date    日期
         regexp  正则
-
+    
         number：
             属性constructor：返回字符串“Number”
             方法：
@@ -724,7 +725,7 @@
                 toFixed
                 toExponential
                 toPrecision
-
+    
         number：
             属性constructor：返回字符串“String”
                 length：       返回长度
@@ -748,13 +749,13 @@
                 toUpperCase
                 toLocaleUpperCase
                 trim
-
+    
         number：
             属性constructor：返回字符串“Boolean”
             方法：
                 toString
                 valueOf
-
+    
         object：
             属性constructor：返回字符串“Object”
             方法：
@@ -790,7 +791,7 @@
                 filter
                 reduce
                 reduceRight
-
+    
         date
             属性constructor：返回字符串“Date”
             var date = getDate()    返回当前时间对象
@@ -862,7 +863,7 @@
                 exec
                 test
                 toString
-
+    
     基础类库(内置对象)
         Math
             属性
@@ -897,7 +898,7 @@
         JSON
             stringify(object): 将 object 对象转换为 JSON 字符串，并返回该字符串。
             parse(string): 将 JSON 字符串转化成对象，并返回该对象。
-
+    
         Number
             属性
             MAX_VALUE
@@ -910,7 +911,7 @@
             parse
             UTC
             now
-
+    
         Global
             属性
             NaN
@@ -935,7 +936,7 @@
         res.scrollTop       //  显示区域的垂直滚动位置
     })
     query.exec()
-
+    
     在自定义组件中，推荐使用 this.createSelectorQuery 来代替 wx.createSelectorQuery ，这样会将选择器选取范围定在这个自定义组件内
 
 ## WXML节点布局相交状态
@@ -946,10 +947,10 @@
     <li>相交比例：相交区域占参照区域的比例</li>
     <li>阈值：相交比例如果达到阈值，则会触发监听器的回调函数。阈值可以有多个。</li>
 </ul>
-   
+
 ## 响应显示区域变化
     在ipad上旋转屏幕，需要在app.json中配置“resizable”:true
-
+    
     Media Query
         .my-class{
             width:40px
@@ -960,7 +961,7 @@
                 width:200px
             }
         }
-
+    
     监视屏幕尺寸变化
         wx.onWindowResize(function(res){
             res.size.windowWidth        //新的显示区域宽度
@@ -975,7 +976,7 @@
                 "component": true
             }
         在js中用Component函数注册组件
-
+    
             Component({
                 //父组件传入的属性
                 properties:{
@@ -990,20 +991,20 @@
                 },
                 //自身属性
                 data:{
-
+    
                 },
                 lifetimes:{
                     //生命周期函数,也可以直接定义在和lifetimes同级，但是会被lifetimes有同名的覆盖
                     created(){
-
+    
                     },
                     moved(){}
                 },
                 attached(){
-
+    
                 },
                 ready:function(){
-
+    
                 },
                 moved:function(){}          //会被lifetimes里面的moved覆盖
                 pageLifetimes:{
@@ -1023,19 +1024,19 @@
                     }
                 }
             })
-
+    
             在 properties 定义段中，属性名采用驼峰写法（propertyName）；在 wxml 中，指定属性值时则对应使用连字符写法（component-tag-name property-name="attr value"），应用于数据绑定时采用驼峰写法（attr="{{propertyName}}"）
     
     组件使用
         在app.json中声明 usingComponents 字段，这个组件会成为全局组件，在小程序内的页面或自定义组件中可以直接使用而无需再声明
-
+    
         页面中使用：json文件声明usingComponents字段
             {
                 "usingComponents": {
                     "component-tag-name": "path/to/the/custom/component"
                 }
             }
-
+    
     组件模板
         在组件模板中可以提供<slot>节点，用于继承父组件引用时提供的子节点
         demo
@@ -1050,7 +1051,7 @@
                     <view>这个view会插到组件内部slot的位置</view>
                 </component-tag-name>
             </view>
-
+    
     抽象节点
         自定义组件模板中的一些节点，其对应使用的自定义组件不是由自定义组件模板决定的，而是由组件使用者决定，这时可以把这个不确定的节点定义为抽象节点
         例：
@@ -1067,7 +1068,7 @@
                     "selectable": true
                 }
             }
-
+    
             //使用包含抽象节点的组件:在使用 selectable-group 组件时，必须指定“selectable”具体是哪个组件：
             <view>
                 <selectable-group generic:selectable='custom-radio' />
@@ -1080,7 +1081,7 @@
                     "custom-checkbox": "path/to/custom/checkbox"
                 }
             }
-
+    
     抽象节点的默认组件
         抽象节点可以指定一个默认组件，当具体组件未被指定时，将创建默认组件的实例。默认组件可以在 componentGenerics 字段中指定：
         {
@@ -1091,7 +1092,7 @@
             }
         }
         节点的 generic 引用 generic:xxx="yyy" 中，值 yyy 只能是静态值，不能包含数据绑定。因而抽象节点特性并不适用于动态决定节点名的场景
-
+    
     Component构造器
         定义段	    类型	    是否必填	描述
         properties	Object Map	否	      组件的对外属性，是属性名到属性设置的映射表，包含三个字段，type 属性类型、 value 属性初始值、 observer 属性值被更改时的响应函数
@@ -1109,7 +1110,7 @@
         lifetimes	Object	    否	    组件生命周期声明对象，组件的生命周期：created、attached、ready、moved、detached将收归到lifetimes字段内进行声明，原有声明方式仍旧有效，如同时存在两种声明方式，则lifetimes字段内声明方式优先级最高
         pageLifetimes	Object	否	    组件所在页面的生命周期声明对象(父组件)，目前仅支持页面的show和hide两个生命周期
         definitionFilter	Function	否	定义段过滤器，用于自定义组件扩展
-
+    
     组件实例可以在组件的方法、生命周期函数和属性 observer 中通过 this 访问。组件包含一些通用属性和方法
         属性名	类型	描述
         is	String	组件的文件路径
@@ -1117,7 +1118,7 @@
         dataset	String	节点dataset
         data	Object	组件数据，包括内部数据和属性值
         properties	Object	组件数据，包括内部数据和属性值（与 data 一致）
-
+    
         方法名	参数	            描述
         setData	Object newData	    设置data并执行视图层渲染
         hasBehavior	Object behavior	检查组件是否具有 behavior （检查时会递归检查被直接或间接引入的所有behavior）
@@ -1146,7 +1147,7 @@
                 }
             }
         })
-
+    
         在一个组件的定义和使用时，组件的属性名和 data 字段相互间都不能冲突（尽管它们位于不同的定义段中）。
         从基础库 2.0.9 开始，对象类型的属性和 data 字段中可以包含函数类型的子字段，即可以通过对象类型的属性字段来传递函数。低于这一版本的基础库不支持这一特性。
         bug : 对于 type 为 Object 或 Array 的属性，如果通过该组件自身的 this.setData 来改变属性值的一个子字段，则依旧会触发属性 observer ，且 observer 接收到的 newVal 是变化的那个子字段的值， oldVal 为空， changedPath 包含子字段的字段名相关信息。
@@ -1155,9 +1156,9 @@
     WXML 数据绑定：用于父组件向子组件的指定属性设置数据，仅能设置 JSON 兼容数据（自基础库版本 2.0.9 开始，还可以在数据中包含函数
     
     事件：用于子组件向父组件传递数据，可以传递任意数据。
-
+    
     父组件还可以通过 this.selectComponent 方法获取子组件实例对象，这样就可以直接访问组件的任意数据和方法。
-
+    
     监听事件
         自定义组件可以触发任意的事件，引用组件的页面可以监听这些事件。
         <!-- 当自定义组件触发“myevent”事件时，调用“onMyEvent”方法 -->
@@ -1191,7 +1192,7 @@
         bubbles	Boolean	否	false	事件是否冒泡
         composed	Boolean	否	false	事件是否可以穿越组件边界，为false时，事件将只能在引用组件的节点树上触发，不进入其他任何组件内部
         capturePhase	Boolean	否	false	事件是否拥有捕获阶段
-
+    
         // 页面 page.wxml
         <another-component bindcustomevent="pageEventListener1">
             <my-component bindcustomevent="pageEventListener2"></my-component>
@@ -1230,7 +1231,7 @@
                     myBehaviorData:{}
                 },
                 attached:function(){
-
+    
                 },
                 methods:{
                     myBehaviorMethod:function(){}
@@ -1261,7 +1262,7 @@
     
     字段的覆盖和组合规则
         组件和它引用的 behavior 中可以包含同名的字段，对这些字段的处理方法如下：
-
+    
         如果有同名的属性或方法，组件本身的属性或方法会覆盖 behavior 中的属性或方法，如果引用了多个 behavior ，在定义段中靠后 behavior 中的属性或方法会覆盖靠前的属性或方法；
         
         如果有同名的数据字段，如果数据是对象类型，会进行对象合并，如果是非对象类型则会进行相互覆盖；
@@ -1306,7 +1307,7 @@
         }
     })
     注意：必须在两个组件定义中都加入relations定义，否则不会生效。
-
+    
     关联一类组件
         有时，需要关联的是一类组件，如：
             <custom-form>
@@ -1316,13 +1317,13 @@
                 </view>
                 <custom-submit> submit </custom-submit>
             </custom-form>
-
+    
         custom-form 组件想要关联 custom-input 和 custom-submit 两个组件。此时，如果这两个组件都有同一个behavior：
             // path/to/custom-form-controls.js
             module.exports = Behavior({
                 // ...
             })
-
+    
             // path/to/custom-input.js
             var customFormControls = require('./custom-form-controls')
                 Component({
@@ -1333,7 +1334,7 @@
                     }
                 }
             })
-
+    
             // path/to/custom-submit.js
             var customFormControls = require('./custom-form-controls')
             Component({
@@ -1355,7 +1356,7 @@
                     }
                 }
             })
-
+    
         relations 定义段
             选项	类型	是否必填	描述
             type	String	是	        目标组件的相对关系，可选的值为 parent 、 child 、 ancestor 、 descendant
@@ -1367,20 +1368,20 @@
 ## 基础能力
     1. 服务器域名配置
         每个微信小程序需要事先设置一个通讯域名，小程序只可以跟指定的域名与进行网络通信。包括普通 HTTPS 请求（request）、上传文件（uploadFile）、下载文件（downloadFile) 和 WebSocket 通信（connectSocket）
-
+    
         域名只支持 https (request、uploadFile、downloadFile) 和 wss (connectSocket) 协议；
         域名不能使用 IP 地址或 localhost；
         域名必须经过 ICP 备案；
         出于安全考虑，api.weixin.qq.com 不能被配置为服务器域名，相关API也不能在小程序内调用。 开发者应将 appsecret 保存到后台服务器中，通过服务器使用 appsecret 获取 accesstoken，并调用相关 API；
         对于每个接口，分别可以配置最多 20 个域名。
-
+    
     2. 存储
         每个微信小程序都可以有自己的本地缓存，可以通过 wx.setStorage/wx.setStorageSync、wx.getStorage/wx.getStorageSync、wx.clearStorage/wx.clearStorageSync，wx.removeStorage/wx.removeStorageSync 对本地缓存进行读写和清理。
-
+    
         同一个微信用户，同一个小程序 storage 上限为 10MB。storage 以用户维度隔离，同一台设备上，A 用户无法读取到 B 用户的数据。
-
+    
         注意： 如果用户储存空间不足，我们会清空最近最久未使用的小程序的本地缓存。我们不建议将关键信息全部存在 storage，以防储存空间不足或用户换设备的情况。
-
+    
     3. 文件系统
         文件主要分为两大类：
             代码包文件：代码包文件指的是在项目目录中添加的文件。
@@ -1450,7 +1451,7 @@
             ctx.setFillStyle(grd)
             ctx.fillRect(10, 10, 150, 80)
             ctx.draw()
-
+    
             const ctx = wx.createCanvasContext('myCanvas')
             // Create circular gradient
             const grd = ctx.createCircularGradient(75, 50, 50)
@@ -1460,10 +1461,10 @@
             ctx.setFillStyle(grd)
             ctx.fillRect(10, 10, 150, 80)
             ctx.draw()
-        
+
 ## 分包加载
     所谓的主包，即放置默认启动页面/TabBar 页面，以及一些所有分包都需用到公共资源/JS 脚本；而分包则是根据开发者的配置进行划分。
-
+    
     目前小程序分包大小有以下限制：
         整个小程序所有分包大小不超过 8M
         单个分包/主包大小不能超过 2M
@@ -1509,7 +1510,7 @@
                     }
                 ]
             }
-
+    
         subpackages字段说明
             字段	类型	说明
             root	String	分包根目录
@@ -1522,7 +1523,7 @@
         app（主包）也可以有自己的 pages（即最外层的 pages 字段）
         subpackage 的根目录不能是另外一个 subpackage 内的子目录
         tabBar 页面必须在 app（主包）内
-
+    
     引用原则
         packageA 无法 require packageB JS 文件，但可以 require app、自己 package 内的 JS 文件
         packageA 无法 import packageB 的 template，但可以 require app、自己 package 内的 template
@@ -1530,7 +1531,7 @@
 
 ## 独立分包
     独立分包是小程序中一种特殊类型的分包，可以独立于主包和其他分包运行。从独立分包中页面进入小程序时，不需要下载主包
-
+    
     例
         目录
         ├── app.js
@@ -1571,13 +1572,13 @@
                 }
             ]
         }
-
+    
     限制
         独立分包属于分包的一种。普通分包的所有限制都对独立分包有效。独立分包中插件、自定义组件的处理方式同普通分包。
         独立分包中不能依赖主包和其他分包中的内容，包括js文件、template、wxss、自定义组件、插件等。主包中的app.wxss对独立分包无效，应避免在独立分包页面中使用 app.wxss 中的样式；
         App 只能在主包内定义，独立分包中不能定义 App，会造成无法预期的行为；
         独立分包中暂时不支持使用插件。
-
+    
     关于 getApp()
         由于独立分包不依赖主包，所以独立分包使用app共享数据时候，可以不存在app
         为了在独立分包中满足这一需求，基础库 2.2.4 版本开始 getApp支持 allowDefault参数，在 App 未定义时返回一个默认实现。当主包加载，App 被注册时，默认实现中定义的属性会被覆盖合并到真正的 App 中
@@ -1586,7 +1587,7 @@
             const app = getApp({allowDefault: true}) // {}
             app.data = 456
             app.global = {}
-
+    
             app。js中
             App({
                 data: 123,
@@ -1600,7 +1601,7 @@
 ## 分包预下载
     开发者可以通过配置，在进入小程序某个页面时，由框架自动预下载可能需要的分包，提升进入后续分包页面时的启动速度。对于独立分包，也可以预下载主包。
     分包预下载目前只支持通过配置方式使用，暂不支持通过调用API完成。
-
+    
     配置方法
         预下载分包行为在进入某个页面时触发，通过在 app.json 增加 preloadRule 配置来控制。
         例
@@ -1658,11 +1659,11 @@
 ## 蓝牙
     蓝牙适配器模块生效周期为调用 wx.openBluetoothAdapter 至调用 wx.closeBluetoothAdapter 或小程序被销毁为止。
     在小程序蓝牙适配器模块生效期间，开发者才能够正常调用蓝牙相关的小程序 API，并收到蓝牙模块相关的事件回调。
-
+    
     注意
         由于系统限制，Android 上获取到的 deviceId 为设备 MAC 地址，iOS 上则为设备 uuid。因此 deviceId 不能硬编码到代码中。
         目前不支持在开发者工具上进行蓝牙功能的调试，需要使用真机才能正常调用小程序蓝牙接口。
-
+    
     低功耗蓝牙（BLE）注意事项
         iOS 上对特征值的 read、write、notify操作，由于系统需要获取特征值实例，传入的 serviceId 与 characteristicId 必须由 wx.getBLEDeviceServices 与 wx.getBLEDeviceCharacteristics 中获取到后才能使用。建议双平台统一在建立连接后先执行 wx.getBLEDeviceServices 与 wx.getBLEDeviceCharacteristics 后再进行与蓝牙设备的数据交互。
 
@@ -1671,11 +1672,11 @@
     ②wifi硬件商-提供硬件服务
     3。wifi服务商
         Wi-Fi可通过提供线下服务解决方案和Wi-Fi综合解决方案，提升线下商户经营效率，拓展新客源。
-
+    
         Wi-Fi服务商首先要注册微信开放平台账号，并通过开发者资质认证审核。在管理中心创建公众号第三方平台，务必选择“微信连Wi-Fi”权限集。
-
+    
         在获得公众号授权登录后，可通过软件服务管理接口实现基于Wi-Fi的服务流程。
-
+    
     移动端实现流程
         ①获取门店Wi-Fi信息
             改造portal型设备的第一步，是获得门店Wi-Fi信息，包括：appId，shop_id，ssid，secretkey。有两种获取门店Wi-Fi信息的方法：
@@ -1694,23 +1695,24 @@
                 请求URL：https://api.weixin.qq.com/bizwifi/apportal/register?access_token=ACCESS_TOKEN
                 POST数据格式：JSON
 
-                
-                参数	是否必须	说明
-                access_token	是	调用接口凭证
-                POST数据	是	JSON数据
 
+​                
+​                参数	是否必须	说明
+​                access_token	是	调用接口凭证
+​                POST数据	是	JSON数据
+​    
                 POST数据示例
                 {
                     "shop_id": 429620,
                     "ssid": "WX123",
                     "reset": false
                 }
-
+    
                 字段	是否必填	说明
                 shop_id	是	门店ID
                 ssid	是	无线网络设备的ssid，限30个字符以内。 ssid支持中文，但可能因设备兼容性问题导致显示乱码，或无法连接等问题，相关风险自行承担 ！
                 reset	否	重置secretkey，false-不重置，true-重置，默认为false
-
+    
                 返回结构
                 {
                     "errcode": 0,
@@ -1753,14 +1755,14 @@
                 authUrl	是	认证服务端URL，微信客户端将把用户微信身份信息向此URL提交并获得认证放行*
                 mac	安卓设备必需	用户手机mac地址，格式冒号分隔，字符长度17个，并且字母小写，例如：00:1f:7a:ad:5c:a8
                 ssid	是	AP设备的无线网络名称
-
+    
                 sign = MD5(appId + extend + timestamp + shopId + authUrl + mac + ssid + secretkey);
         
         3.支持临时放行上网请求
             请确保AP/AC在portal页打开后能够临时放行用户的上网请求。只有临时放行成功，才可以调用上述JSAPI呼起微信，换取用户身份信息，保证后续认证请求顺利完成，从而成功连网。
-
+    
             注意：IOS呼起微信时如果网络不通Wi-Fi会被切走，导致连网失败，因此请务必确保AC/AP支持临时放行上网请求。
-
+    
             部分安卓设备的web浏览器无法自动呼起微信客户端的问题，请参考常见问题中的解决方案。
         
         ④接受微信身份认证放行
@@ -1771,12 +1773,12 @@
             extend	为上文中调用呼起微信JSAPI时传递的extend参数，这里原样回传给商家主页
             openId	用户的微信openId
             tid	为加密后的用户手机号码（仅作网监部门备案使用）
-
+    
             authUrl所对应的后台认证服务器必须能识别这些参数信息，并向微信客户端返回AC认证结果，微信客户端将根据http返回码，提示用户连网成功与否。
                 http返回码为200，则认为服务认证成功，微信客户端跳转到成功连接页，用户点击“完成”按钮后，将跳转到商家主页
-
+    
                 若认证服务器需要转移认证请求，请返回302和下一跳地址，微信客户端将向下一跳地址再发起一次请求，302跳转仅支持一次
-
+    
             注意：微信客户端一次请求的等待时间为10s，请确保后台认证服务器在微信客户端向authUrl发送请求10s之内返回AC认证结果，即http返回码。超过10s未返回认证结果将视为认证失败。
         
         5.实现扫二维码连网
@@ -1826,7 +1828,7 @@
                 
             字段	是否必填	说明
             callback_url	是	回调URL，开通插件成功后的跳转页面。注：该参数域名必须与跳转进开通插件页面的页面域名保持一致，建议均采用第三方平台域名。
-
+    
             返回数据
             {
                 "errcode": 0,
@@ -1856,7 +1858,7 @@
         数	是否必填	说明
         access_token	是	调用接口凭证
         POST数据	是	JSON数据
-
+    
         POST数据示例
         {
             "shop_id": 429620,
@@ -1871,7 +1873,7 @@
         wxa_user_name	否	连网完成页跳转小程序原始id，finishpage_type为1时有效，要求小程序与公众号有绑定关系
         wxa_path	否	连网完成页跳转小程序路径，finishpage_type为1时有效，需要做urlencode
         finishpage_type	否	连网完成页跳转类型，0为H5，1为小程序
-
+    
     设置顶部banner跳转小程序接口
         用户连Wi-Fi后长期逗留在场所内，可以在连接Wi-Fi后进入微信点击微信聊首页欢迎语，即可进入预先设置的小程序中获得资讯或服务。
         例
@@ -1881,7 +1883,7 @@
             POST数据格式：JSON
             access_token	是	调用接口凭证
             POST数据	是	JSON数据
-
+    
             POST数据示例
             {
                 "shop_id": 2200766,  
@@ -1897,7 +1899,7 @@
             struct	是	连网完成页跳转小程序原始id，finishpage_type为1时有效，要求小程序与公众号有绑定关系
             wxa_user_name	是	账号原始ID
             wxa_path	是	小程序页面路径
-
+    
     查询门店WiFi信息接口
         协议：https  
         http请求方式: POST  
@@ -1906,7 +1908,7 @@
         参数	是否必填	说明
         access_token	是	调用接口凭证
         POST数据	是	JSON数据
-
+    
         POST数据示例
             {  
                 "errcode": 0,  
@@ -1967,12 +1969,12 @@
 ## UnionID 机制说明
     如果开发者拥有多个移动应用、网站应用、和公众帐号（包括小程序），可通过 UnionID 来区分用户的唯一性，因为只要是同一个微信开放平台帐号下的移动应用、网站应用和公众帐号（包括小程序），用户的 UnionID 是唯一的
     换句话说，同一用户，对同一个微信开放平台下的不同应用，unionid是相同的。
-
+    
     unionID获取途经
         调用接口 wx.getUserInfo，从解密数据中获取 UnionID。注意本接口需要用户授权，请开发者妥善处理用户拒绝授权后的情况。
-
+    
         如果开发者帐号下存在同主体的公众号，并且该用户已经关注了该公众号。开发者可以直接通过 wx.login + code2Session 获取到该用户 UnionID，无须用户再次授权。
-
+    
         如果开发者帐号下存在同主体的公众号或移动应用，并且该用户已经授权登录过该公众号或移动应用。开发者也可以直接通过 wx.login + code2Session 获取到该用户 UnionID ，无须用户再次授权。
     
     微信开放平台绑定小程序流程
@@ -1983,7 +1985,7 @@
         如果用户未接受或拒绝过此权限，会弹窗询问用户，用户点击同意后方可调用接口；
         如果用户已授权，可以直接调用接口；
         如果用户已拒绝授权，则不会出现弹窗，而是直接进入接口 fail 回调。请开发者兼容用户拒绝授权的场景。
-
+    
     部分接口需要经过用户授权同意才能调用。我们把这些接口按使用范围分成多个 scope
     提前发起授权请求
         开发者可以使用 wx.authorize 在调用需授权 API 之前，提前向用户发起授权请求。
@@ -2003,7 +2005,7 @@
     签名校验以及数据加解密涉及用户的会话密钥 session_key。 
     开发者应该事先通过 wx.login 登录流程获取会话密钥 session_key 并保存在服务器。
     为了数据不被篡改，开发者不应该把 session_key 传到小程序客户端等服务器外的环境。
-
+    
     - 数据签名校验
         为了确保开放接口返回用户数据的安全性，微信会对明文数据进行签名。开发者可以根据业务需要对数据包进行签名校验，确保数据的完整性。
             调用wx.getUserInfo获取数据时，接口会同时返回 rawData、signature，其中 signature = sha1( rawData + session_key )
@@ -2011,13 +2013,13 @@
     - 加密数据解密算法
         接口如果涉及敏感数据（如wx.getUserInfo当中的 openId 和 unionId），接口的明文内容将不包含这些敏感数据。
         开发者如需要获取敏感数据，需要对接口返回的加密数据(encryptedData) 进行对称解密。 解密算法如下：
-
+    
         解密算法如下：
             对称解密使用的算法为 AES-128-CBC，数据采用PKCS#7填充。
             对称解密的目标密文为 Base64_Decode(encryptedData)。
             对称解密秘钥 aeskey = Base64_Decode(session_key), aeskey 是16字节。
             对称解密算法初始向量 为Base64_Decode(iv)，其中iv由数据接口返回。
-
+    
         另外，为了应用能校验数据的有效性，会在敏感数据加上数据水印( watermark )
             watermark参数说明：
             参数	类型	说明
@@ -2026,11 +2028,11 @@
     
     - 会话密钥 session_key 有效性
         wx.login 调用时，用户的 session_key 可能会被更新而致使旧 session_key 失效（刷新机制存在最短周期，如果同一个用户短时间内多次调用 wx.login，并非每次调用都导致 session_key 刷新）。开发者应该在明确需要重新登录时才调用 wx.login，及时通过 code2Session 接口更新服务器存储的 session_key。
-
+    
         微信不会把 session_key 的有效期告知开发者。我们会根据用户使用小程序的行为对 session_key 进行续期。用户越频繁使用小程序，session_key 有效期越长。
-
+    
         开发者在 session_key 失效时，可以通过重新执行登录流程获取有效的 session_key。使用接口 wx.checkSession可以校验 session_key 是否有效，从而避免小程序反复执行登录流程。
-
+    
         当开发者在实现自定义登录态时，可以考虑以 session_key 有效期作为自身登录态有效期，也可以实现自定义的时效性策略。
     
     - code2Session
@@ -2053,7 +2055,7 @@
 ## 获取手机号
     获取微信用户绑定的手机号，需先调用wx.login接口。
     因为需要用户主动触发才能发起获取手机号接口，所以该功能不由 API 来调用，需用 <button> 组件的点击来触发。
-
+    
     使用方法
         需要将 <button> 组件 open-type 的值设置为 getPhoneNumber，当用户点击并同意之后，可以通过 bindgetphonenumber 事件回调获取到微信服务器返回的加密数据， 然后在第三方服务端结合 session_key 以及 app_id 进行解密获取手机号。
     注意
@@ -2071,7 +2073,7 @@
         参数	类型	说明
         encryptedData	String	包括敏感数据在内的完整用户信息的加密数据，详细见加密数据解密算法
         iv	String	加密算法的初始向量，详细见加密数据解密算法
-
+    
         encryptedData 解密后为以下 JSON 结构，详见加密数据解密算法
         {
             "phoneNumber": "13580006666",  
@@ -2086,7 +2088,7 @@
 
 ## 转发
     调用 wx.showShareMenu 并且设置 withShareTicket 为 true ，当用户将小程序转发到任一群聊之后，此转发卡片在群聊中被其他用户打开时，可以在 App.onLaunch 或 App.onShow 获取到一个 shareTicket。通过调用 wx.getShareInfo() 接口传入此 shareTicket 可以获取到转发信息。
-
+    
     页面内发起转发
         通过给 button 组件设置属性 open-type="share"，可以在用户点击按钮后触发 Page.onShareAppMessage 事件，如果当前页面没有定义此事件，则点击后无效果。相关组件：button
         Tips
@@ -2098,11 +2100,11 @@
 
 ## 打开 App
     此功能需要用户主动触发才能打开 APP，所以不由 API 来调用，需要用 open-type 的值设置为 launchApp 的 <button> 组件的点击来触发。
-
+    
     当小程序从 APP 分享消息卡片的场景打开（场景值 1036，APP 分享小程序文档 iOS / Android） 或从 APP 打开的场景打开时（场景值 1069），小程序会获得打开 APP 的能力，此时用户点击按钮可以打开分享该卡片的 APP。即小程序不能打开任意 APP，只能 跳回 分享该小程序卡片的 APP。
-
+    
     在一个小程序的生命周期内，只有在特定条件下，才具有打开 APP 的能力。 打开 APP 的能力 可以理解为由小程序框架在内部管理的一个状态，为 true 则可以打开 APP，为 false 则不可以打开 APP。
-
+    
     在小程序的生命周期内，这个状态的初始值为 false，之后会随着小程序的每次打开（无论是启动还是切到前台）而改变：
         当小程序从 1036（App 分享消息卡片） 打开时，该状态置为 true。
         当小程序从 1069（App 打开小程序） 打开时，该状态置为 true。
@@ -2111,14 +2113,14 @@
         1089（微信聊天主界面下拉）
         1090（长按小程序右上角菜单唤出最近使用历史）
         当小程序从非以上陈列的场景打开时，该状态置为 false。
-
+    
     - 使用方法
         小程序端
             需要将 <button> 组件 open-type 的值设置为 launchApp。如果需要在打开 APP 时向 APP 传递参数，可以设置 app-parameter 为要传递的参数。通过 binderror 可以监听打开 APP 的错误事件。
-
+    
         app 端
             APP 需要接入 OpenSDK。 文档请参考 iOS / Android
-
+    
             Android 第三方 app 需要处理 ShowMessageFromWX.req 的微信回调，iOS 则需要将 appId 添加到第三方 app 工程所属的 plist 文件 URL types 字段。 app-parameter 的获取方法，请参考 Android SDKSample 中 WXEntryActivity 中的 onResp 方法以及 iOS SDKSample 中 WXApiDelegate 中的 onResp 方法。
 
 ## 模板消息
@@ -2140,9 +2142,21 @@
     参数	类型	说明
     path	String	小程序消息指定的路径
     query	Object	小程序消息指定的查询参数
-
+    
     - 后台接入消息服务
         接入微信小程序消息服务，开发者需要按照如下步骤完成：
             填写服务器配置
             验证服务器地址的有效性
             据接口文档实现业务逻辑
+## 卡劵 
+
+​	小程序卡券接口支持在小程序中领取/查看/使用公众号 AppId 创建的会员卡、票、券（含通用卡）。更多使用方法可参考 [小程序&卡券打通](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)
+
+​	目前只有认证小程序才能使用卡券接口，可参考 [指引](https://developers.weixin.qq.com/miniprogram/product/renzheng.html?t=18110616) 进行认证。
+
+​	小程序内可以通过 [wx.addCard](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html) 接口给用户添加卡券。通过 [wx.openCard](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html) 让用户选择已有卡券。
+
+## 获取二维码
+
+通过后台接口可以获取小程序任意页面的二维码，扫描该二维码可以直接进入小程序对应的页面，所有生成的二维码永久有效，可放心使用
+
